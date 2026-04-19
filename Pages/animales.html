@@ -22,7 +22,7 @@
         <section class="row flex-grow-1 align-items-center">
             <div class="col-12">
                 <h1 class="display-1 fw-bold text-dark mb-4" id="nombre-animal">¿?</h1>
-                <div class="display-1 fw-bold text-danger" id="temporizador">20</div>
+                <div class="display-1 fw-bold text-danger" id="temporizador">10</div>
                 <p class="fs-4 text-muted mt-2">Segundos</p>
             </div>
         </section>
@@ -65,7 +65,7 @@
             modalVotacion = new bootstrap.Modal(document.getElementById('modalVotacion'));
         });
 
-        let tiempo = 20;
+        let tiempo = 10;
         let intervaloTimer;
         let animalSeleccionado = null;
 
@@ -76,7 +76,7 @@
             txtAnimal.innerText = animalSeleccionado.nombre;
             
             btnSortear.classList.add('d-none');
-            tiempo = 20;
+            tiempo = 10;
             txtTiempo.innerText = tiempo;
             
             intervaloTimer = setInterval(() => {
