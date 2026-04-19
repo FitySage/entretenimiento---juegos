@@ -1,0 +1,82 @@
+/* Estilos base para los pulsadores */
+.pulsador {
+  transition: all 0.2s ease-in-out;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  cursor: pointer;
+  outline: none;
+}
+
+/* Colores específicos asignados a cada ID */
+.pulsador#btn-team-1 { background-color: #3498db; }
+.pulsador#btn-team-2 { background-color: #e74c3c; }
+.pulsador#btn-team-3 { background-color: #2ecc71; }
+.pulsador#btn-team-4 { background-color: #f1c40f; }
+
+/* Efectos al tocar y bloquear */
+.pulsador:active {
+  filter: brightness(1.2);
+  transform: scale(0.98);
+}
+
+.pulsador.locked {
+  filter: grayscale(0.5) brightness(0.7);
+  pointer-events: none;
+}
+
+/* Ajustes para textos grandes */
+.pulsador h2 {
+  font-size: 3rem;
+}
+
+/* --- RESPONSIVIDAD PARA TV / PANTALLAS GRANDES --- */
+@media (min-width: 1200px) {
+  .pulsador h2 {
+    font-size: 6rem;
+  }
+  .pulsador span {
+    font-size: 4rem !important;
+  }
+}
+
+/* Estilos para los botones del presentador */
+.btn-host {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1050;
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.9);
+  transition: transform 0.1s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-host:active {
+  transform: translateY(-50%) scale(0.9);
+}
+
+.btn-host.left {
+  left: 10px;
+}
+
+.btn-host.right {
+  right: 10px;
+}
+
+/* Estilos para las columnas del podio */
+.podium-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  transition: all 0.5s ease-in-out;
+  border-radius: 15px 15px 0 0;
+  padding: 20px;
+}
+
+.podium-column.rank-1 { height: 70%; background: linear-gradient(to top, #f1c40f, #f39c12); }
+.podium-column.rank-2 { height: 50%; background: linear-gradient(to top, #bdc3c7, #95a5a6); }
+.podium-column.rank-3 { height: 35%; background: linear-gradient(to top, #cd7f32, #a0522d); }
