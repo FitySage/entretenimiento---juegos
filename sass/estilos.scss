@@ -2,16 +2,27 @@
 .pulsador {
   transition: all 0.2s ease-in-out;
   color: white;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   outline: none;
 }
 
 /* Colores específicos asignados a cada ID */
-.pulsador#btn-team-1 { background-color: #3498db; }
-.pulsador#btn-team-2 { background-color: #e74c3c; }
-.pulsador#btn-team-3 { background-color: #2ecc71; }
-.pulsador#btn-team-4 { background-color: #f1c40f; }
+.pulsador#btn-team-1 {
+  background-color: #3498db;
+}
+
+.pulsador#btn-team-2 {
+  background-color: #e74c3c;
+}
+
+.pulsador#btn-team-3 {
+  background-color: #2ecc71;
+}
+
+.pulsador#btn-team-4 {
+  background-color: #f1c40f;
+}
 
 /* Efectos al tocar y bloquear */
 .pulsador:active {
@@ -34,6 +45,7 @@
   .pulsador h2 {
     font-size: 6rem;
   }
+
   .pulsador span {
     font-size: 4rem !important;
   }
@@ -77,21 +89,55 @@
   padding: 20px;
 }
 
-.podium-column.rank-1 { height: 70%; background: linear-gradient(to top, #f1c40f, #f39c12); }
-.podium-column.rank-2 { height: 50%; background: linear-gradient(to top, #bdc3c7, #95a5a6); }
-.podium-column.rank-3 { height: 35%; background: linear-gradient(to top, #cd7f32, #a0522d); }
+.podium-column.rank-1 {
+  height: 70%;
+  background: linear-gradient(to top, #f1c40f, #f39c12);
+}
+
+.podium-column.rank-2 {
+  height: 50%;
+  background: linear-gradient(to top, #bdc3c7, #95a5a6);
+}
+
+.podium-column.rank-3 {
+  height: 35%;
+  background: linear-gradient(to top, #cd7f32, #a0522d);
+}
 
 /* Contenedor fantasma "legal" para YouTube */
 /* Reproductor temporalmente VISIBLE para buscar el error */
-        #reproductor-fantasma { 
-            position: absolute; 
-            top: 20%; 
-            left: 50%; 
-            transform: translateX(-50%);
-            width: 300px; 
-            height: 200px; 
-            opacity: 1; /* Totalmente visible */
-            z-index: 9999; /* Por encima de todo */
-            background-color: black;
-            border: 5px solid red; /* Le ponemos un borde rojo para verlo bien */
-        }
+#reproductor-fantasma {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 200px;
+  opacity: 1;
+  /* Totalmente visible */
+  z-index: 9999;
+  /* Por encima de todo */
+  background-color: black;
+  border: 5px solid red;
+  /* Le ponemos un borde rojo para verlo bien */
+}
+
+/* --- COMPORTAMIENTO PARA CELULARES (Por defecto) --- */
+/* En pantallas chicas, forzamos a que se pueda scrollear y no se oculte nada */
+body,
+main {
+  min-height: 100vh !important;
+  height: auto !important;
+  overflow-y: auto !important;
+}
+
+/* --- COMPORTAMIENTO PARA PC Y TV (Pantallas grandes) --- */
+/* A partir de 992px (tamaño de monitor/TV), volvemos a bloquear el scroll para que quede como un cuadro fijo */
+@media (min-width: 992px) {
+
+  body,
+  main {
+    height: 100vh !important;
+    overflow: hidden !important;
+  }
+}
