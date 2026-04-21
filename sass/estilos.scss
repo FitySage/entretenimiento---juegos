@@ -81,3 +81,17 @@
 .podium-column.rank-2 { height: 50%; background: linear-gradient(to top, #bdc3c7, #95a5a6); }
 .podium-column.rank-3 { height: 35%; background: linear-gradient(to top, #cd7f32, #a0522d); }
 
+/* Contenedor fantasma "legal" para YouTube */
+/* Reproductor temporalmente VISIBLE para buscar el error */
+        #reproductor-fantasma { 
+            position: absolute; 
+            top: 20%; 
+            left: 50%; 
+            transform: translateX(-50%);
+            width: 300px; 
+            height: 200px; 
+            opacity: 1; /* Totalmente visible */
+            z-index: 9999; /* Por encima de todo */
+            background-color: black;
+            border: 5px solid red; /* Le ponemos un borde rojo para verlo bien */
+        }

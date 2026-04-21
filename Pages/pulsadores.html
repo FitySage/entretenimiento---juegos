@@ -1,84 +1,135 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Juego - Pulsadores</title>
-    
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+    <link rel="stylesheet" href="../style/estilos.css">
+
     <style>
-        /* Ajustes base para celulares (evita zoom y titileos blancos) */
-        .pulsador { 
-            transition: all 0.2s ease-in-out; 
-            color: white; 
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3); 
-            cursor: pointer; 
-            outline: none !important; 
-            user-select: none; 
-            -webkit-tap-highlight-color: transparent; 
-        }
-        
-        /* Colores pastel de cada equipo */
-        .pulsador#btn-team-1 { background-color: #3498db; }
-        .pulsador#btn-team-2 { background-color: #e74c3c; }
-        .pulsador#btn-team-3 { background-color: #2ecc71; }
-        .pulsador#btn-team-4 { background-color: #f1c40f; }
-        
-        /* Efecto al presionar (se hunde a penitas) */
-        .pulsador:active { transform: scale(0.95); }
-
-        /* --- ACÁ ESTABAN LAS CLASES FALTANTES --- */
-        
-        /* 1. El que tocó primero (Aparece un aro blanco y brilla) */
-        .pulsador.respondiendo { 
-            filter: brightness(1.2); 
-            box-shadow: inset 0 0 0 10px rgba(255, 255, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.5); 
-            z-index: 10; 
-        }
-        
-        /* 2. Los que perdieron por lentos (Grises y bloqueados) */
-        .pulsador.bloqueado { 
-            filter: grayscale(0.8) brightness(0.4); 
-            pointer-events: none; 
-        }
-        
-        /* 3. El que respondió mal y fue eliminado (Casi transparente) */
-        .pulsador.eliminado { 
-            filter: grayscale(1) opacity(0.2); 
-            pointer-events: none; 
+        .pulsador {
+            transition: all 0.2s ease-in-out;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            outline: none !important;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Tamaños de texto (Celular vs TV) */
-        .pulsador h2 { font-size: 3rem; }
+        .pulsador#btn-team-1 {
+            background-color: #3498db;
+        }
+
+        .pulsador#btn-team-2 {
+            background-color: #e74c3c;
+        }
+
+        .pulsador#btn-team-3 {
+            background-color: #2ecc71;
+        }
+
+        .pulsador#btn-team-4 {
+            background-color: #f1c40f;
+        }
+
+        .pulsador:active {
+            transform: scale(0.95);
+        }
+
+        .pulsador.respondiendo {
+            filter: brightness(1.2);
+            box-shadow: inset 0 0 0 10px rgba(255, 255, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.5);
+            z-index: 10;
+        }
+
+        .pulsador.bloqueado {
+            filter: grayscale(0.8) brightness(0.4);
+            pointer-events: none;
+        }
+
+        .pulsador.eliminado {
+            filter: grayscale(1) opacity(0.2);
+            pointer-events: none;
+        }
+
+        .pulsador h2 {
+            font-size: 3rem;
+        }
+
         @media (min-width: 1200px) {
-            .pulsador h2 { font-size: 6rem; }
-            .pulsador span { font-size: 4rem !important; }
+            .pulsador h2 {
+                font-size: 6rem;
+            }
+
+            .pulsador span {
+                font-size: 4rem !important;
+            }
         }
 
-        /* Botones laterales del presentador */
-        .btn-host { 
-            position: fixed; top: 50%; transform: translateY(-50%); 
-            z-index: 1050; width: 60px; height: 60px; border: none; 
-            border-radius: 50%; background-color: rgba(255, 255, 255, 0.9); 
-            transition: transform 0.1s ease; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+        /* Controles del presentador - AHORA SIEMPRE VISIBLES */
+        .btn-host {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1050;
+            width: 60px;
+            height: 60px;
+            border: none;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.9);
+            transition: transform 0.1s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .btn-host:active { transform: translateY(-50%) scale(0.9); }
-        .btn-host.left { left: 10px; }
-        .btn-host.right { right: 10px; }
+
+        .btn-host:active {
+            transform: translateY(-50%) scale(0.9);
+        }
+
+        .btn-host.left {
+            left: 10px;
+        }
+
+        .btn-host.right {
+            right: 10px;
+        }
+
+        /* Contenedor fantasma para YouTube */
+        #reproductor-fantasma {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
     </style>
 </head>
-<body>
+
+<body class="overflow-hidden">
+
+    <div id="reproductor-fantasma">
+        <div id="yt-player"></div>
+    </div>
+
     <main class="container-fluid vh-100 overflow-hidden p-0">
+        <a href="../index.html" class="btn btn-dark position-absolute top-0 start-50 translate-middle-x mt-2"
+            style="z-index: 1050;">⬅ Volver</a>
+
         <div class="row g-0 h-50">
             <div class="col-6 h-100">
-                <button id="btn-team-1" class="pulsador w-100 h-100 border-0 d-flex flex-column justify-content-center align-items-center">
+                <button id="btn-team-1"
+                    class="pulsador w-100 h-100 border-0 d-flex flex-column justify-content-center align-items-center">
                     <h2 class="display-1 fw-bold text-uppercase">Equipo 1</h2>
                     <span class="fs-3">0 pts</span>
                 </button>
             </div>
             <div class="col-6 h-100">
-                <button id="btn-team-2" class="pulsador w-100 h-100 border-0 d-flex flex-column justify-content-center align-items-center">
+                <button id="btn-team-2"
+                    class="pulsador w-100 h-100 border-0 d-flex flex-column justify-content-center align-items-center">
                     <h2 class="display-1 fw-bold text-uppercase">Equipo 2</h2>
                     <span class="fs-3">0 pts</span>
                 </button>
@@ -86,94 +137,45 @@
         </div>
         <div class="row g-0 h-50">
             <div class="col-6 h-100">
-                <button id="btn-team-3" class="pulsador w-100 h-100 border-0 d-flex flex-column justify-content-center align-items-center">
+                <button id="btn-team-3"
+                    class="pulsador w-100 h-100 border-0 d-flex flex-column justify-content-center align-items-center">
                     <h2 class="display-1 fw-bold text-uppercase">Equipo 3</h2>
                     <span class="fs-3">0 pts</span>
                 </button>
             </div>
             <div class="col-6 h-100">
-                <button id="btn-team-4" class="pulsador w-100 h-100 border-0 d-flex flex-column justify-content-center align-items-center">
+                <button id="btn-team-4"
+                    class="pulsador w-100 h-100 border-0 d-flex flex-column justify-content-center align-items-center">
                     <h2 class="display-1 fw-bold text-uppercase">Equipo 4</h2>
                     <span class="fs-3">0 pts</span>
                 </button>
             </div>
         </div>
 
-        <button id="btn-incorrecto" class="btn-host left shadow-lg d-flex justify-content-center align-items-center">
-            <span class="fs-1">❌</span>
-        </button>
-        <button id="btn-correcto" class="btn-host right shadow-lg d-flex justify-content-center align-items-center">
-            <span class="fs-1">✅</span>
-        </button>
+        <button id="btn-incorrecto" class="btn-host left shadow-lg"><span class="fs-1">❌</span></button>
+        <button id="btn-correcto" class="btn-host right shadow-lg"><span class="fs-1">✅</span></button>
     </main>
 
-    <script>
-        const pulsadores = document.querySelectorAll('.pulsador');
-        const btnCorrecto = document.getElementById('btn-correcto');
-        const btnIncorrecto = document.getElementById('btn-incorrecto');
+    <div class="position-fixed bottom-0 start-50 translate-middle-x mb-4 bg-dark bg-opacity-75 p-3 rounded-pill shadow-lg d-flex gap-3 align-items-center"
+        style="z-index: 1050;">
+        <select id="selector-genero" class="form-select bg-dark text-white border-secondary fw-bold shadow-sm"
+            style="width: auto; cursor: pointer;">
+            <option value="rock">🎸 Rock Argentino</option>
+            <option value="romantica">🌹 Románticas</option>
+            <option value="popAnglo">🎤 Pop Anglo</option>
+            <option value="popArg">🇦🇷 Pop Argentino</option>
+        </select>
+        <button id="btn-play-musica"
+            class="btn btn-primary rounded-circle fs-2 shadow d-flex justify-content-center align-items-center"
+            style="width: 70px; height: 70px;">▶️</button>
+        <button id="btn-next-musica"
+            class="btn btn-light rounded-circle fs-2 shadow d-flex justify-content-center align-items-center"
+            style="width: 70px; height: 70px;">⏭️</button>
+    </div>
 
-        let juegoPausado = false;
-        let jugadorActual = null;
-        let puntajes = { 'btn-team-1': 0, 'btn-team-2': 0, 'btn-team-3': 0, 'btn-team-4': 0 };
-
-        function actualizarPantallaPuntajes() {
-            pulsadores.forEach(boton => {
-                boton.querySelector('span').innerText = `${puntajes[boton.id]} pts`;
-            });
-        }
-
-        // Lógica al tocar un equipo
-        function tocarPulsador(evento) {
-            const botonPresionado = evento.currentTarget;
-            
-            if (juegoPausado || botonPresionado.classList.contains('eliminado')) return;
-
-            juegoPausado = true;
-            jugadorActual = botonPresionado;
-
-            // Oscurece a todos
-            pulsadores.forEach(btn => {
-                if (btn !== botonPresionado) btn.classList.add('bloqueado');
-            });
-            
-            // Le da el brillo al ganador
-            botonPresionado.classList.add('respondiendo');
-        }
-
-        // Lógica al equivocarse
-        btnIncorrecto.addEventListener('click', () => {
-            if (!jugadorActual) return;
-            
-            puntajes[jugadorActual.id] -= 5;
-            actualizarPantallaPuntajes();
-            
-            jugadorActual.classList.remove('respondiendo');
-            jugadorActual.classList.add('eliminado');
-            
-            juegoPausado = false;
-            jugadorActual = null;
-            
-            pulsadores.forEach(btn => {
-                if (!btn.classList.contains('eliminado')) btn.classList.remove('bloqueado');
-            });
-        });
-
-        // Lógica al acertar
-        btnCorrecto.addEventListener('click', () => {
-            if (!jugadorActual) return;
-            
-            puntajes[jugadorActual.id] += 10;
-            actualizarPantallaPuntajes();
-            
-            juegoPausado = false;
-            jugadorActual = null;
-            
-            pulsadores.forEach(btn => {
-                btn.classList.remove('bloqueado', 'respondiendo', 'eliminado');
-            });
-        });
-
-        pulsadores.forEach(boton => boton.addEventListener('pointerdown', tocarPulsador));
-    </script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="../js/historial.js"></script>
+    <script src="../js/pulsadores.js"></script>
 </body>
+
 </html>
