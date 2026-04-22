@@ -21,7 +21,7 @@ function mezclar(lista) {
 }
 
 const listas = {
-    rock: ["dQw4w9WgXcQ"], 
+    rock: ["5IR5CdvBQPY", "PyTUcj1fGcs", "RvuyfBpytAA", "l-mBu_3rI8g", "YTex-t2cwyQ", "PORH8P2ylPA"], 
     romantica: ["k2qgadSvNyU", "V_Yv-e1KkO4", "8h_7U-k8F_4", "VvP6GfM9Zk8", "8_896339798"],
     popAnglo: ["tQ0yjYUFKAE", "T4ncnt-Hl5U", "pB-5XG-DbAA", "pHHUv1n-U20", "f_896339798"],
     popArg: ["8_896339800", "R_0R_0R_0R_2", "w8896339801", "v8896339802", "f_896339799"]

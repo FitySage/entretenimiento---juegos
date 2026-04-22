@@ -258,9 +258,12 @@ btnSiguiente.addEventListener('click', () => {
 // --- FINALIZAR Y GUARDAR EN EL SALÓN DE LA FAMA ---
 // Convertimos el cierre en una función para poder llamarla al final de los animales o si tocás el botón rojo
 function finalizarJuego() {
+    // 1. Guardamos la foto exacta de los puntos para el podio
+    localStorage.setItem('puntajesUltimaPartida', JSON.stringify(puntajes));
+
+    // 2. Buscamos al ganador (Esto ya lo tenías, para guardarlo en el historial general)
     let equipoGanador = "";
     let puntajeMaximo = 0;
-
     Object.keys(puntajes).forEach(id => {
         if (puntajes[id] > puntajeMaximo) {
             puntajeMaximo = puntajes[id];
@@ -270,11 +273,10 @@ function finalizarJuego() {
 
     if (puntajeMaximo > 0) {
         guardarGanador(equipoGanador, puntajeMaximo, "Adivina el Animal");
-        alert(`¡Juego finalizado! El ganador es ${equipoGanador} con ${puntajeMaximo} puntos. Guardado en el Salón de la Fama.`);
-    } else {
-        alert("El juego terminó. No hubo ganadores.");
-    }
-    window.location.href = "../index.html";
+    } 
+    
+    // 3. Llevamos a todos al podio para la celebración
+    window.location.href = "podio.html";
 }
 
 // Conectamos la función al botón rojo de "Terminar y Guardar"

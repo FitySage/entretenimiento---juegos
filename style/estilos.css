@@ -112,10 +112,32 @@
   transform: translateX(-50%);
   width: 300px;
   height: 200px;
-  opacity: 1; /* Totalmente visible */
-  z-index: 9999; /* Por encima de todo */
+  opacity: 1;
+  /* Totalmente visible */
+  z-index: 9999;
+  /* Por encima de todo */
   background-color: black;
-  border: 5px solid red; /* Le ponemos un borde rojo para verlo bien */
+  border: 5px solid red;
+  /* Le ponemos un borde rojo para verlo bien */
+}
+
+/* --- COMPORTAMIENTO PARA CELULARES (Por defecto) --- */
+/* En pantallas chicas, forzamos a que se pueda scrollear y no se oculte nada */
+body,
+main {
+  min-height: 100vh !important;
+  height: auto !important;
+  overflow-y: auto !important;
+}
+
+/* --- COMPORTAMIENTO PARA PC Y TV (Pantallas grandes) --- */
+/* A partir de 992px (tamaño de monitor/TV), volvemos a bloquear el scroll para que quede como un cuadro fijo */
+@media (min-width: 992px) {
+  body,
+  main {
+    height: 100vh !important;
+    overflow: hidden !important;
+  }
 }
 
 /*# sourceMappingURL=estilos.css.map */

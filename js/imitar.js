@@ -110,6 +110,7 @@ btnSiguiente.addEventListener('click', () => {
 });
 
 function finalizarJuego() {
+    localStorage.setItem('puntajesUltimaPartida', JSON.stringify(puntajes));
     let equipoGanador = "";
     let puntajeMaximo = 0;
 
@@ -126,7 +127,7 @@ function finalizarJuego() {
     } else {
         alert("El juego terminó en empate.");
     }
-    window.location.href = "../index.html";
+    window.location.href = "podio.html";
 }
 
 document.getElementById('btn-finalizar').addEventListener('click', finalizarJuego);

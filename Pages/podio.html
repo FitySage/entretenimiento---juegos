@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Podio Final!</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../style/estilos.css">
+    <style>
+        body { 
+            background-color: #111; /* Fondo bien oscuro para que resalte el podio */
+            color: white; 
+            overflow: hidden; 
+        }
+        .podium-container { 
+            height: 55vh; 
+            display: flex; 
+            align-items: flex-end; 
+            justify-content: center; 
+            gap: 15px; 
+        }
+        .equipo-nombre { 
+            font-size: 2rem; 
+            font-weight: bold; 
+            text-align: center; 
+            margin-bottom: 10px; 
+            text-transform: uppercase;
+        }
+        
+        @media (min-width: 1200px) {
+            .equipo-nombre { font-size: 4rem; }
+        }
+    </style>
+</head>
+<body class="d-flex flex-column vh-100 p-4">
+    
+    <div class="text-center mt-4">
+        <h1 class="display-1 text-warning fw-bold" style="text-shadow: 0 5px 15px rgba(0,0,0,0.8);">🏆 RESULTADOS FINALES 🏆</h1>
+    </div>
+
+    <div class="flex-grow-1 d-flex flex-column justify-content-end pb-5">
+        <div class="podium-container" id="podio-dinamico">
+        </div>
+    </div>
+
+    <div class="text-center mb-4 z-3">
+        <a href="../index.html" class="btn btn-outline-light btn-lg px-5 fs-2 rounded-pill shadow">🏠 Volver al Menú Principal</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        // 1. Leer los puntajes de la última partida y los nombres configurados
+        const puntajesActuales = JSON.parse(localStorage.getItem('puntajesUltimaPartida')) || {};
+        const nombresEquipos = JSON.parse(localStorage.getItem('configJuego')) || {};
+
+        // Función para compatibilizar los IDs (ej: btn-team-1 vs equipo1)
+        function obtenerNombre(idEquipo) {
+            if (nombresEquipos[idEquipo]) return nombresEquipos[idEquipo].nombre;
+            let idConvertido = idEquipo.replace('btn-team-', 'equipo');
+            if (nombresEquipos[idConvertido]) return nombresEquipos[idConvertido].nombre;
+            return idEquipo; // Por defecto
+        }
+
+        // 2. Transformar los puntos en una lista y ordenarlos de Mayor a Menor
+        const ranking = Object.keys(puntajesActuales).map(id => {
+            return {
+                nombre: obtenerNombre(id),
+                puntos: puntajesActuales[id]
+            };
+        }).sort((a, b) => b.puntos - a.puntos);
+
+        const contenedorPodio = document.getElementById('podio-dinamico');
+
+        // 3. Dibujar el podio (solo si hay al menos 3 equipos jugando)
+        if(ranking.length >= 3) {
+            // El orden visual en la pantalla es: 2do, 1ro, 3ro (Para que el 1ro quede en el centro)
+            const ordenVisual = [ranking[1], ranking[0], ranking[2]];
+            const clasesRank = ['rank-2', 'rank-1', 'rank-3'];
+            const medallas = ['🥈', '🥇', '🥉'];
+
+            ordenVisual.forEach((equipo, index) => {
+                contenedorPodio.innerHTML += `
+                    <div class="d-flex flex-column justify-content-end align-items-center" style="width: 25%;">
+                        <div class="equipo-nombre">${medallas[index]}<br>${equipo.nombre}</div>
+                        <div class="podium-column ${clasesRank[index]} w-100 text-dark shadow-lg text-center">
+                            <div class="display-3 fw-bold">${equipo.puntos}</div>
+                            <div class="fs-4 fw-bold">pts</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // 4. ¡Disparar la lluvia de confeti!
+            setTimeout(() => {
+                confetti({
+                    particleCount: 200,
+                    spread: 120,
+                    origin: { y: 0.6 },
+                    colors: ['#f1c40f', '#e74c3c', '#3498db', '#2ecc71']
+                });
+            }, 500); // Tira el confeti medio segundo después de cargar
+        } else {
+            contenedorPodio.innerHTML = `<h2 class="text-muted">No hay suficientes datos para armar el podio.</h2>`;
+        }
+    </script>
+</body>
+</html>
