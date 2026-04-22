@@ -1,145 +1,209 @@
-// --- NOMBRES DE EQUIPOS DESDE EL MENÚ ---
-const datosGuardados = JSON.parse(localStorage.getItem('configJuego'));
-if (datosGuardados) {
-    document.querySelector('#btn-team-1 h2').innerText = datosGuardados.equipo1.nombre;
-    document.querySelector('#btn-team-2 h2').innerText = datosGuardados.equipo2.nombre;
-    document.querySelector('#btn-team-3 h2').innerText = datosGuardados.equipo3.nombre;
-    document.querySelector('#btn-team-4 h2').innerText = datosGuardados.equipo4.nombre;
-}
-
-// --- EFECTO DE SONIDO ---
-const sonidoAplausos = new Audio("../assets/sounds/corneta.wav");
-
-// --- YOUTUBE Y SHUFFLE ---
-function mezclar(lista) {
-    let mezclada = [...lista];
-    for (let i = mezclada.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [mezclada[i], mezclada[j]] = [mezclada[j], mezclada[i]];
-    }
-    return mezclada;
-}
-
-const listas = {
-    rock: ["5IR5CdvBQPY", "PyTUcj1fGcs", "RvuyfBpytAA", "l-mBu_3rI8g", "YTex-t2cwyQ", "PORH8P2ylPA"], 
-    romantica: ["k2qgadSvNyU", "V_Yv-e1KkO4", "8h_7U-k8F_4", "VvP6GfM9Zk8", "8_896339798"],
-    popAnglo: ["tQ0yjYUFKAE", "T4ncnt-Hl5U", "pB-5XG-DbAA", "pHHUv1n-U20", "f_896339798"],
-    popArg: ["8_896339800", "R_0R_0R_0R_2", "w8896339801", "v8896339802", "f_896339799"]
+// --- CONFIGURACIÓN Y PUNTOS ---
+let puntajes = { equipo1: 0, equipo2: 0, equipo3: 0, equipo4: 0 };
+const nombresEquipos = JSON.parse(localStorage.getItem('configJuego')) || {
+    equipo1: { nombre: "Equipo 1" }, equipo2: { nombre: "Equipo 2" },
+    equipo3: { nombre: "Equipo 3" }, equipo4: { nombre: "Equipo 4" }
 };
 
-let player;
-let categoriaActual = 'rock';
-let playlistYouTube = mezclar(listas[categoriaActual]);
-let indiceCancion = 0;
+// --- BASE DE DATOS MUSICAL (YOUTUBE) ---
+const listas = {
+    rock: ["5IR5CdvBQPY", "PyTUcj1fGcs", "RvuyfBpytAA", "l-mBu_3rI8g", "YTex-t2cwyQ", "PORH8P2ylPA"],
+    pop: [] // Poné tus IDs acá
+};
 
-window.onYouTubeIframeAPIReady = function() {
+let cancionesDisponibles = [];
+let player = null;
+let equipoActivo = null;
+
+// NUEVO: Lista negra temporal para los que se equivocan en la misma canción
+let equiposBloqueados = []; 
+
+// --- ELEMENTOS DE PANTALLA ---
+const btnReproducir = document.getElementById('btn-reproducir');
+const mensajeEstado = document.getElementById('mensaje-estado');
+const contenedorPulsadores = document.getElementById('contenedor-pulsadores');
+const controlesPresentador = document.getElementById('controles-presentador');
+const btnSiguiente = document.getElementById('btn-siguiente');
+const contadorCanciones = document.getElementById('contador-canciones');
+const miniPuntos = document.getElementById('mini-puntos');
+
+// --- 1. CONFIGURACIÓN DE YOUTUBE ---
+function onYouTubeIframeAPIReady() {
     player = new YT.Player('yt-player', {
-        height: '200', 
-        width: '300',
-        videoId: playlistYouTube[indiceCancion],
-        playerVars: {
-            'playsinline': 1,
-            'origin': window.location.origin 
-        }
+        height: '10', width: '10', videoId: '',
+        playerVars: { 'playsinline': 1, 'controls': 0 }
     });
 }
 
-// --- CONTROLES DEL DJ ---
-const btnPlayMusica = document.getElementById('btn-play-musica');
-const btnNextMusica = document.getElementById('btn-next-musica');
-const selectorGenero = document.getElementById('selector-genero');
+// --- 2. DIBUJAR INTERFAZ ---
+function actualizarUI() {
+    miniPuntos.innerHTML = "";
+    Object.keys(puntajes).forEach(id => {
+        miniPuntos.innerHTML += `<div class="text-white fw-bold">${nombresEquipos[id].nombre}: <span class="text-warning">${puntajes[id]}</span></div>`;
+    });
 
-selectorGenero.addEventListener('change', (evento) => {
-    categoriaActual = evento.target.value;
-    playlistYouTube = mezclar(listas[categoriaActual]); 
-    indiceCancion = 0;
-    if (player) {
-        player.loadVideoById(playlistYouTube[indiceCancion]);
+    contenedorPulsadores.innerHTML = "";
+    Object.keys(nombresEquipos).forEach((id, index) => {
+        const colorClass = ["btn-primary", "btn-danger", "btn-success", "btn-warning"][index];
+        contenedorPulsadores.innerHTML += `
+            <div class="col-6">
+                <button id="pulsador-${id}" onclick="tocarPulsador('${id}')" class="btn ${colorClass} w-100 shadow btn-pulsador bloqueado">
+                    ${nombresEquipos[id].nombre}
+                </button>
+            </div>
+        `;
+    });
+}
+
+// --- 3. LÓGICA DEL JUEGO ---
+function iniciarCategoria(cat) {
+    cancionesDisponibles = [...listas[cat]];
+    document.getElementById('seleccion-categoria').classList.add('d-none');
+    document.getElementById('juego-musica').classList.remove('d-none');
+    actualizarUI();
+    prepararNuevaCancion();
+}
+
+function prepararNuevaCancion() {
+    if (cancionesDisponibles.length === 0) {
+        alert("¡Se terminaron las canciones!");
+        finalizarJuego();
+        return;
+    }
+
+    equipoActivo = null;
+    equiposBloqueados = []; // Reiniciamos los bloqueados para que todos puedan jugar la nueva canción
+    
+    // Asegurarse de que los botones del DJ estén visibles
+    document.getElementById('btn-incorrecto').classList.remove('d-none');
+    document.getElementById('btn-correcto').classList.remove('d-none');
+    
+    controlesPresentador.classList.add('d-none');
+    btnReproducir.classList.remove('d-none');
+    mensajeEstado.innerText = "¡Toquen Reproducir cuando estén listos!";
+    mensajeEstado.className = "text-info";
+    contadorCanciones.innerText = `Faltan: ${cancionesDisponibles.length} canciones`;
+
+    Object.keys(nombresEquipos).forEach(id => {
+        const btn = document.getElementById(`pulsador-${id}`);
+        if(btn) {
+            btn.classList.add('bloqueado');
+            btn.classList.remove('ganador-ronda');
+        }
+    });
+
+    const indice = Math.floor(Math.random() * cancionesDisponibles.length);
+    const idVideo = cancionesDisponibles[indice];
+    cancionesDisponibles.splice(indice, 1);
+
+    if (player && player.loadVideoById) {
+        player.loadVideoById(idVideo);
         player.pauseVideo();
-        btnPlayMusica.innerText = "▶️";
-        reiniciarRondaCancion();
+    }
+}
+
+// Reproducir y HABILITAR pulsadores
+btnReproducir.addEventListener('click', () => {
+    if (player && player.playVideo) {
+        player.playVideo();
+        btnReproducir.classList.add('d-none');
+        mensajeEstado.innerText = "🎵 Sonando... ¡El primero en saberlo, que pulse!";
+        mensajeEstado.className = "text-warning";
+
+        // Desbloqueamos a los que NO están en la lista negra
+        Object.keys(nombresEquipos).forEach(id => {
+            const btn = document.getElementById(`pulsador-${id}`);
+            if(btn && !equiposBloqueados.includes(id)) {
+                btn.classList.remove('bloqueado');
+            }
+        });
     }
 });
 
-btnPlayMusica.addEventListener('click', () => {
-    if (!player) return; 
-    
-    if (player.getPlayerState() === 1) { 
-        player.pauseVideo(); 
-        btnPlayMusica.innerText = "▶️";
-    } else {
-        player.unMute();
-        player.setVolume(100);
-        player.playVideo(); 
-        btnPlayMusica.innerText = "⏸️";
-    }
-});
+// ¡ALGUIEN TOCÓ EL BOTÓN!
+function tocarPulsador(idEquipo) {
+    if(equipoActivo) return; 
+    equipoActivo = idEquipo;
 
-btnNextMusica.addEventListener('click', () => {
-    if (!player) return;
-    indiceCancion++;
-    if (indiceCancion >= playlistYouTube.length) indiceCancion = 0;
-    player.loadVideoById(playlistYouTube[indiceCancion]);
-    btnPlayMusica.innerText = "⏸️";
-    reiniciarRondaCancion();
-});
+    if (player && player.pauseVideo) player.pauseVideo();
 
-// --- LÓGICA DEL JUEGO Y PULSADORES ---
-const pulsadores = document.querySelectorAll('.pulsador');
-const btnCorrecto = document.getElementById('btn-correcto');
-const btnIncorrecto = document.getElementById('btn-incorrecto');
+    mensajeEstado.innerText = `¡${nombresEquipos[idEquipo].nombre} tiene la palabra!`;
+    mensajeEstado.className = "text-success display-6 fw-bold";
 
-let juegoPausado = false;
-let jugadorActual = null;
-let puntajes = { 'btn-team-1': 0, 'btn-team-2': 0, 'btn-team-3': 0, 'btn-team-4': 0 };
+    Object.keys(nombresEquipos).forEach(id => {
+        const btn = document.getElementById(`pulsador-${id}`);
+        if(id === idEquipo) {
+            btn.classList.add('ganador-ronda');
+        } else {
+            btn.classList.add('bloqueado');
+        }
+    });
 
-function actualizarPantallaPuntajes() {
-    pulsadores.forEach(boton => { boton.querySelector('span').innerText = `${puntajes[boton.id]} pts`; });
+    controlesPresentador.classList.remove('d-none');
 }
 
-function tocarPulsador(evento) {
-    const botonPresionado = evento.currentTarget;
-    if (juegoPausado || botonPresionado.classList.contains('eliminado')) return;
+// --- 4. CONTROLES DEL PRESENTADOR ---
+document.getElementById('btn-correcto').addEventListener('click', () => {
+    puntajes[equipoActivo] += 10;
+    actualizarUI();
+    prepararNuevaCancion();
+});
 
-    juegoPausado = true;
-    jugadorActual = botonPresionado;
+document.getElementById('btn-incorrecto').addEventListener('click', () => {
+    // Mandamos al que se equivocó a la lista negra
+    equiposBloqueados.push(equipoActivo);
 
-    // Pausa la música si está sonando
-    if (player && player.getPlayerState() === 1) {
-        player.pauseVideo();
-        btnPlayMusica.innerText = "▶️";
+    // Revisamos si ya erraron los 4 equipos
+    if (equiposBloqueados.length >= 4) {
+        mensajeEstado.innerText = "❌ ¡Nadie adivinó! Pasemos a la siguiente.";
+        mensajeEstado.className = "text-danger fw-bold";
+        equipoActivo = null;
+        
+        // Escondemos los botones de ✅ y ❌ para obligar al DJ a tocar Siguiente
+        document.getElementById('btn-incorrecto').classList.add('d-none');
+        document.getElementById('btn-correcto').classList.add('d-none');
+        return;
     }
 
-    pulsadores.forEach(btn => { if (btn !== botonPresionado) btn.classList.add('bloqueado'); });
-    botonPresionado.classList.add('respondiendo');
-}
+    // Si todavía quedan equipos, hay rebote
+    mensajeEstado.innerText = "❌ Incorrecto... ¡REBOTE! Pueden robar los demás.";
+    mensajeEstado.className = "text-danger fw-bold";
+    
+    equipoActivo = null;
+    controlesPresentador.classList.add('d-none');
+    
+    // Acá está la magia: Desbloqueamos al resto, y dejamos bloqueados a los de la lista negra
+    Object.keys(nombresEquipos).forEach(id => {
+        const btn = document.getElementById(`pulsador-${id}`);
+        if (btn) {
+            btn.classList.remove('ganador-ronda');
+            if (equiposBloqueados.includes(id)) {
+                btn.classList.add('bloqueado'); // Se equivocó, queda castigado
+            } else {
+                btn.classList.remove('bloqueado'); // Puede robar
+            }
+        }
+    });
 
-btnIncorrecto.addEventListener('click', () => {
-    if (!jugadorActual) return;
-    puntajes[jugadorActual.id] -= 5;
-    actualizarPantallaPuntajes();
-    jugadorActual.classList.remove('respondiendo');
-    jugadorActual.classList.add('eliminado');
-    juegoPausado = false;
-    jugadorActual = null;
-    pulsadores.forEach(btn => { if (!btn.classList.contains('eliminado')) btn.classList.remove('bloqueado'); });
+    if (player && player.playVideo) player.playVideo();
 });
 
-btnCorrecto.addEventListener('click', () => {
-    if (!jugadorActual) return;
-    puntajes[jugadorActual.id] += 10;
-    actualizarPantallaPuntajes();
-    
-    // Acá suenan los aplausos al darle al Correcto
-    sonidoAplausos.play().catch(e => console.log("Error audio:", e));
-    
-    reiniciarRondaCancion();
-});
+document.getElementById('btn-siguiente').addEventListener('click', prepararNuevaCancion);
 
-function reiniciarRondaCancion() {
-    juegoPausado = false;
-    jugadorActual = null;
-    pulsadores.forEach(btn => { btn.classList.remove('bloqueado', 'respondiendo', 'eliminado'); });
+// --- 5. TERMINAR JUEGO Y PODIO ---
+function finalizarJuego() {
+    localStorage.setItem('puntajesUltimaPartida', JSON.stringify(puntajes));
+    
+    let maxPuntos = -1; let ganador = "";
+    Object.keys(puntajes).forEach(id => {
+        if(puntajes[id] > maxPuntos) {
+            maxPuntos = puntajes[id];
+            ganador = nombresEquipos[id].nombre;
+        }
+    });
+
+    if(maxPuntos > 0) guardarGanador(ganador, maxPuntos, "Adivina la Canción");
+    window.location.href = "podio.html";
 }
 
-pulsadores.forEach(boton => boton.addEventListener('pointerdown', tocarPulsador));
+document.getElementById('btn-finalizar').addEventListener('click', finalizarJuego);
