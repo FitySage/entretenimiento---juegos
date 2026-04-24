@@ -7,10 +7,10 @@ const nombresEquipos = JSON.parse(localStorage.getItem('configJuego')) || {
 
 // --- BASE DE DATOS MUSICAL (YOUTUBE) ---
 const listas = {
-    rock: ["5IR5CdvBQPY", "PyTUcj1fGcs", "RvuyfBpytAA", "l-mBu_3rI8g", "YTex-t2cwyQ", "PORH8P2ylPA", "F3IVCSrj0CM", "7JlpB4YkB7s", "uJcbNtW-R3Y", "ezlpwCLgiE8", "P0kwvtEP59M", "kLzICexlPzU", "gflJjn2ZBcM", "NQA8wiPLUFU", "2Cql8mG4kWM", "zd16sFhTUdg", "Ng2hpTKrzHQ", ""],
-    pop: ["zgaCZOQCpp8", "lZEf_izPCfY", "lwOuEq_FoOo", "htk6MRjmcnQ", "Gq-ekgeVGaA", "uYgutBxT8ps", "XpjwYvRryCI", "d2Tu9ctifx4", "2I9eC2MRhto", "pUanlyF510I", "y1HpchKTO4k", "BHIpvqhydLo", "iawgB2CDCrw", "xzVO_1CcwvA", "ipLRRzJ9sWg", "dFp_b5DPIIo", "tdKmewyZPXE", "QC2FoaT7Yb8", "xzNliaWxdjM", "WHHkVUaOxe4", "QvvhiIevsX8", "KxnpFKZowcs", "mgT0N3tMP74", "u7XjPmN-tHw", "O1TFUEMzTvE", "0Ui-QzihJGo", "LhZ5GXCZtEw", "nNcDkT_AoHQ", "BerNfXSuvJ0", "UsuF4jJ4sgA", ], // Poné tus IDs acá
-    los8090s: ["Gd6CtzYpDBs", "hGPL5rzd3tQ", "LtDlfPYzs38", "qoflJn7zkFM", "cZid3J36wH8", "LPr3N4AMXNQ", "l589L_xRycA", "aXf7Iw_hB14", "CP3sn7T0rxY", "" ],
-    pendejada: ["TUsu2pm4294", "_n74F4xX69U", "yA8I9WId1pQ", "9_IAt4A4p6c", "rZ5W2D_hJm0", "2y-W_D1H4G0", "37aA5M_898g", "C2q6zX98R0g", "vzMQFScqsiY", "YVHQm41_A5g", "LV7szERrKPk", "XeqYwllPQyk", "S71L0V47p2o", "G9bF5X7d9aI", "Z8v4S7X2m9Q", "P2k5W4V1m8L", "L3v9S2M4p7X", "H4m8S3V2k1P", "J8n2V4M6k9L", "S4m1K9V2p3L", "P7v2M5X4k1L", "M2n8V4S1k3P", "K9m4S7V2p5L",]
+    rock: ["5IR5CdvBQPY", "PyTUcj1fGcs", "RvuyfBpytAA", "l-mBu_3rI8g", "YTex-t2cwyQ", "PORH8P2ylPA", "F3IVCSrj0CM", "7JlpB4YkB7s", "uJcbNtW-R3Y", "ezlpwCLgiE8", "P0kwvtEP59M", "kLzICexlPzU", "gflJjn2ZBcM", "NQA8wiPLUFU", "2Cql8mG4kWM", "zd16sFhTUdg", "Ng2hpTKrzHQ"],
+    pop: ["zgaCZOQCpp8", "lZEf_izPCfY", "lwOuEq_FoOo", "htk6MRjmcnQ", "Gq-ekgeVGaA", "uYgutBxT8ps", "XpjwYvRryCI", "d2Tu9ctifx4", "2I9eC2MRhto", "pUanlyF510I", "y1HpchKTO4k", "BHIpvqhydLo", "iawgB2CDCrw", "xzVO_1CcwvA", "ipLRRzJ9sWg", "dFp_b5DPIIo", "tdKmewyZPXE", "QC2FoaT7Yb8", "xzNliaWxdjM", "WHHkVUaOxe4", "QvvhiIevsX8", "KxnpFKZowcs", "mgT0N3tMP74", "u7XjPmN-tHw", "O1TFUEMzTvE", "0Ui-QzihJGo", "LhZ5GXCZtEw", "nNcDkT_AoHQ", "BerNfXSuvJ0", "UsuF4jJ4sgA"],
+    los8090s: ["Gd6CtzYpDBs", "hGPL5rzd3tQ", "LtDlfPYzs38", "qoflJn7zkFM", "cZid3J36wH8", "LPr3N4AMXNQ", "l589L_xRycA", "aXf7Iw_hB14", "CP3sn7T0rxY"],
+    pendejada: ["TUsu2pm4294", "_n74F4xX69U", "yA8I9WId1pQ", "9_IAt4A4p6c", "rZ5W2D_hJm0", "2y-W_D1H4G0", "37aA5M_898g", "C2q6zX98R0g", "vzMQFScqsiY", "YVHQm41_A5g", "LV7szERrKPk", "XeqYwllPQyk", "S71L0V47p2o", "G9bF5X7d9aI", "Z8v4S7X2m9Q", "P2k5W4V1m8L", "L3v9S2M4p7X", "H4m8S3V2k1P", "J8n2V4M6k9L", "S4m1K9V2p3L", "P7v2M5X4k1L", "M2n8V4S1k3P", "K9m4S7V2p5L"]
 };
 
 let cancionesDisponibles = [];
