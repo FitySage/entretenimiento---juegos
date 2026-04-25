@@ -5,22 +5,29 @@ const nombresEquipos = JSON.parse(localStorage.getItem('configJuego')) || {
     equipo3: { nombre: "Equipo 3" }, equipo4: { nombre: "Equipo 4" }
 };
 
-// --- BASE DE DATOS MUSICAL (YOUTUBE) ---
+// --- BASE DE DATOS MUSICAL (ACEPTA OBJETOS O IDS SOLOS) ---
 const listas = {
-    rock: ["5IR5CdvBQPY", "PyTUcj1fGcs", "RvuyfBpytAA", "l-mBu_3rI8g", "YTex-t2cwyQ", "PORH8P2ylPA", "F3IVCSrj0CM", "7JlpB4YkB7s", "uJcbNtW-R3Y", "ezlpwCLgiE8", "P0kwvtEP59M", "kLzICexlPzU", "gflJjn2ZBcM", "NQA8wiPLUFU", "2Cql8mG4kWM", "zd16sFhTUdg", "Ng2hpTKrzHQ"],
-    
-    pop: ["zgaCZOQCpp8", "lZEf_izPCfY", "lwOuEq_FoOo", "htk6MRjmcnQ", "Gq-ekgeVGaA", "uYgutBxT8ps", "XpjwYvRryCI", "d2Tu9ctifx4", "2I9eC2MRhto", "pUanlyF510I", "y1HpchKTO4k", "BHIpvqhydLo", "iawgB2CDCrw", "xzVO_1CcwvA", "ipLRRzJ9sWg", "dFp_b5DPIIo", "tdKmewyZPXE", "QC2FoaT7Yb8", "xzNliaWxdjM", "WHHkVUaOxe4", "QvvhiIevsX8", "KxnpFKZowcs", "mgT0N3tMP74", "u7XjPmN-tHw", "O1TFUEMzTvE", "0Ui-QzihJGo", "LhZ5GXCZtEw", "nNcDkT_AoHQ", "BerNfXSuvJ0", "UsuF4jJ4sgA"], // <--- COMA IMPORTANTE
-    
-    los8090s: ["Gd6CtzYpDBs", "hGPL5rzd3tQ", "LtDlfPYzs38", "qoflJn7zkFM", "cZid3J36wH8", "LPr3N4AMXNQ", "l589L_xRycA", "aXf7Iw_hB14", "CP3sn7T0rxY"], // <--- COMA IMPORTANTE
-    
-    pendejada: ["TUsu2pm4294", "_n74F4xX69U", "yA8I9WId1pQ", "9_IAt4A4p6c", "rZ5W2D_hJm0", "2y-W_D1H4G0", "37aA5M_898g", "C2q6zX98R0g", "vzMQFScqsiY", "YVHQm41_A5g", "LV7szERrKPk", "XeqYwllPQyk", "S71L0V47p2o", "G9bF5X7d9aI", "Z8v4S7X2m9Q", "P2k5W4V1m8L", "L3v9S2M4p7X", "H4m8S3V2k1P", "J8n2V4M6k9L", "S4m1K9V2p3L", "P7v2M5X4k1L", "M2n8V4S1k3P", "K9m4S7V2p5L"] // La última no necesita coma
+    rock: [
+        { id: "5IR5CdvBQPY", nombre: "Foo Fighters - The Pretender" }, 
+        { id: "PyTUcj1fGcs", nombre: "Red Hot Chili Peppers - Californication" },
+        { id: "wvAIn53VhMA", nombre: "Soda Stereo - Profugos" },
+        { id: "zd16sFhTUdg", nombre: "No Te Va Gustar - A Las 9" },
+         "l-mBu_3rI8g", "YTex-t2cwyQ", "PORH8P2ylPA", "F3IVCSrj0CM", "7JlpB4YkB7s", "uJcbNtW-R3Y", "ezlpwCLgiE8", "P0kwvtEP59M", "kLzICexlPzU", "gflJjn2ZBcM", "NQA8wiPLUFU", "2Cql8mG4kWM", "zd16sFhTUdg", "Ng2hpTKrzHQ"
+    ],
+    pop: [
+        "zgaCZOQCpp8", "lZEf_izPCfY", "lwOuEq_FoOo", "htk6MRjmcnQ", "Gq-ekgeVGaA", "uYgutBxT8ps", "XpjwYvRryCI", "d2Tu9ctifx4", "2I9eC2MRhto", "pUanlyF510I", "y1HpchKTO4k", "BHIpvqhydLo", "iawgB2CDCrw", "xzVO_1CcwvA", "ipLRRzJ9sWg", "dFp_b5DPIIo", "tdKmewyZPXE", "QC2FoaT7Yb8", "xzNliaWxdjM", "WHHkVUaOxe4", "QvvhiIevsX8", "KxnpFKZowcs", "mgT0N3tMP74", "u7XjPmN-tHw", "O1TFUEMzTvE", "0Ui-QzihJGo", "LhZ5GXCZtEw", "nNcDkT_AoHQ", "BerNfXSuvJ0", "UsuF4jJ4sgA"
+    ], 
+    los8090s: [
+        "Gd6CtzYpDBs", "hGPL5rzd3tQ", "LtDlfPYzs38", "qoflJn7zkFM", "cZid3J36wH8", "LPr3N4AMXNQ", "l589L_xRycA", "aXf7Iw_hB14", "CP3sn7T0rxY"
+    ],
+    pendejada: [
+        "TUsu2pm4294", "_n74F4xX69U", "yA8I9WId1pQ", "9_IAt4A4p6c", "rZ5W2D_hJm0", "2y-W_D1H4G0", "37aA5M_898g", "C2q6zX98R0g", "vzMQFScqsiY", "YVHQm41_A5g", "LV7szERrKPk", "XeqYwllPQyk", "S71L0V47p2o", "G9bF5X7d9aI", "Z8v4S7X2m9Q", "P2k5W4V1m8L", "L3v9S2M4p7X", "H4m8S3V2k1P", "J8n2V4M6k9L", "S4m1K9V2p3L", "P7v2M5X4k1L", "M2n8V4S1k3P", "K9m4S7V2p5L"
+    ]
 };
 
 let cancionesDisponibles = [];
 let player = null;
 let equipoActivo = null;
-
-// NUEVO: Lista negra temporal para los que se equivocan en la misma canción
 let equiposBloqueados = []; 
 
 // --- ELEMENTOS DE PANTALLA ---
@@ -31,6 +38,7 @@ const controlesPresentador = document.getElementById('controles-presentador');
 const btnSiguiente = document.getElementById('btn-siguiente');
 const contadorCanciones = document.getElementById('contador-canciones');
 const miniPuntos = document.getElementById('mini-puntos');
+const respuestaSecreta = document.getElementById('respuesta-secreta');
 
 // --- 1. CONFIGURACIÓN DE YOUTUBE ---
 function onYouTubeIframeAPIReady() {
@@ -77,18 +85,18 @@ function prepararNuevaCancion() {
     }
 
     equipoActivo = null;
-    equiposBloqueados = []; // Reiniciamos los bloqueados para que todos puedan jugar la nueva canción
+    equiposBloqueados = []; 
     
-    // Asegurarse de que los botones del DJ estén visibles
     document.getElementById('btn-incorrecto').classList.remove('d-none');
     document.getElementById('btn-correcto').classList.remove('d-none');
     
     controlesPresentador.classList.add('d-none');
-    btnReproducir.classList.remove('d-none');
+    btnReproducir.classList.remove('d-none'); // Muestra el botón de Play
     mensajeEstado.innerText = "¡Toquen Reproducir cuando estén listos!";
     mensajeEstado.className = "text-info";
     contadorCanciones.innerText = `Faltan: ${cancionesDisponibles.length} canciones`;
 
+    // Bloqueamos los botones hasta que suene la música
     Object.keys(nombresEquipos).forEach(id => {
         const btn = document.getElementById(`pulsador-${id}`);
         if(btn) {
@@ -98,8 +106,28 @@ function prepararNuevaCancion() {
     });
 
     const indice = Math.floor(Math.random() * cancionesDisponibles.length);
-    const idVideo = cancionesDisponibles[indice];
+    const cancionActualInfo = cancionesDisponibles[indice];
     cancionesDisponibles.splice(indice, 1);
+
+    let idVideo = "";
+    let nombreParaMostrar = "";
+
+    if (typeof cancionActualInfo === 'object') {
+        idVideo = cancionActualInfo.id;
+        nombreParaMostrar = cancionActualInfo.nombre;
+    } else {
+        idVideo = cancionActualInfo;
+        nombreParaMostrar = `ID: ${idVideo} (Sin nombre)`;
+    }
+
+    if (respuestaSecreta) {
+        respuestaSecreta.innerText = `🎵 Respuesta: ${nombreParaMostrar}`;
+    }
+
+    console.log("-----------------------------------");
+    console.log("🎶 REPRODUCIENDO: " + nombreParaMostrar);
+    console.log("🔗 LINK YOUTUBE: https://www.youtube.com/watch?v=" + idVideo);
+    console.log("-----------------------------------");
 
     if (player && player.loadVideoById) {
         player.loadVideoById(idVideo);
@@ -107,21 +135,30 @@ function prepararNuevaCancion() {
     }
 }
 
-// Reproducir y HABILITAR pulsadores
+// BOTÓN REPRODUCIR (A prueba de fallos)
 btnReproducir.addEventListener('click', () => {
-    if (player && player.playVideo) {
-        player.playVideo();
-        btnReproducir.classList.add('d-none');
-        mensajeEstado.innerText = "🎵 Sonando... ¡El primero en saberlo, que pulse!";
-        mensajeEstado.className = "text-warning";
+    // 1. Ocultamos el botón de reproducir
+    btnReproducir.classList.add('d-none');
+    
+    // 2. Cambiamos el texto
+    mensajeEstado.innerText = "🎵 Sonando... ¡El primero en saberlo, que pulse!";
+    mensajeEstado.className = "text-warning";
 
-        // Desbloqueamos a los que NO están en la lista negra
-        Object.keys(nombresEquipos).forEach(id => {
-            const btn = document.getElementById(`pulsador-${id}`);
-            if(btn && !equiposBloqueados.includes(id)) {
-                btn.classList.remove('bloqueado');
-            }
-        });
+    // 3. Desbloqueamos los pulsadores de colores para que puedan jugar
+    Object.keys(nombresEquipos).forEach(id => {
+        const btn = document.getElementById(`pulsador-${id}`);
+        if(btn && !equiposBloqueados.includes(id)) {
+            btn.classList.remove('bloqueado');
+        }
+    });
+
+    // 4. Le damos Play a YouTube
+    try {
+        if (player && player.playVideo) {
+            player.playVideo();
+        }
+    } catch (e) {
+        console.log("El reproductor aún no está listo.");
     }
 });
 
@@ -130,7 +167,9 @@ function tocarPulsador(idEquipo) {
     if(equipoActivo) return; 
     equipoActivo = idEquipo;
 
-    if (player && player.pauseVideo) player.pauseVideo();
+    try {
+        if (player && player.pauseVideo) player.pauseVideo();
+    } catch(e){}
 
     mensajeEstado.innerText = `¡${nombresEquipos[idEquipo].nombre} tiene la palabra!`;
     mensajeEstado.className = "text-success display-6 fw-bold";
@@ -155,42 +194,38 @@ document.getElementById('btn-correcto').addEventListener('click', () => {
 });
 
 document.getElementById('btn-incorrecto').addEventListener('click', () => {
-    // Mandamos al que se equivocó a la lista negra
     equiposBloqueados.push(equipoActivo);
 
-    // Revisamos si ya erraron los 4 equipos
     if (equiposBloqueados.length >= 4) {
         mensajeEstado.innerText = "❌ ¡Nadie adivinó! Pasemos a la siguiente.";
         mensajeEstado.className = "text-danger fw-bold";
         equipoActivo = null;
-        
-        // Escondemos los botones de ✅ y ❌ para obligar al DJ a tocar Siguiente
         document.getElementById('btn-incorrecto').classList.add('d-none');
         document.getElementById('btn-correcto').classList.add('d-none');
         return;
     }
 
-    // Si todavía quedan equipos, hay rebote
     mensajeEstado.innerText = "❌ Incorrecto... ¡REBOTE! Pueden robar los demás.";
     mensajeEstado.className = "text-danger fw-bold";
     
     equipoActivo = null;
     controlesPresentador.classList.add('d-none');
     
-    // Acá está la magia: Desbloqueamos al resto, y dejamos bloqueados a los de la lista negra
     Object.keys(nombresEquipos).forEach(id => {
         const btn = document.getElementById(`pulsador-${id}`);
         if (btn) {
             btn.classList.remove('ganador-ronda');
             if (equiposBloqueados.includes(id)) {
-                btn.classList.add('bloqueado'); // Se equivocó, queda castigado
+                btn.classList.add('bloqueado');
             } else {
-                btn.classList.remove('bloqueado'); // Puede robar
+                btn.classList.remove('bloqueado');
             }
         }
     });
 
-    if (player && player.playVideo) player.playVideo();
+    try {
+        if (player && player.playVideo) player.playVideo();
+    } catch(e){}
 });
 
 document.getElementById('btn-siguiente').addEventListener('click', prepararNuevaCancion);
