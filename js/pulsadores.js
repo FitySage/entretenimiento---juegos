@@ -27,7 +27,8 @@ const listas = {
         { id: "l-mBu_3rI8g", nombre: "Rata Blanca - Mujer Amante"},
         { id: "Jf_Ach2THWs", nombre: "Los Piojos - El Farolito"},
         { id: "Kg2mJM2K8eY", nombre: "Airbag - Cae el sol "},
-        { id: "CKAm-6HpHlQ", nombre: "La Renga - La Balada del Diablo y La Muerte"}
+        { id: "CKAm-6HpHlQ", nombre: "La Renga - La Balada del Diablo y La Muerte"},
+        { id: "OYIozwmhYKk", nombre: "Catupecumachu - Eso Vive"},
     ],
     pop: [
         { id: "WHHkVUaOxe4", nombre: "Ariana Grande - Into You"},
@@ -60,6 +61,25 @@ const listas = {
         { id: "lZEf_izPCfY", nombre: "Taylor Swift - Fate of Ophelia"},
         { id: "Gq-ekgeVGaA", nombre: "Benson Boone - Beautiful Things"},
         { id: "dFp_b5DPIIo", nombre: "Shawn Mendes & Camila Cabello - Señorita"}, 
+        { id: "nAQ_1lTDvPQ", nombre: "Taylor Swift - Blank Space"},
+        { id: "liTfD88dbCo", nombre: "Ed Sheeran - Shape of You"},
+        { id: "SyuRxUKDJjI", nombre: "Adele - Someone You Loved"},
+        { id: "0pAkIrJfwao", nombre: "Justin Bieber - Yummy"},
+        { id: "OED5AZhbskk", nombre: "Rihanna - Work"},
+        { id: "8CLkVWB_Lj8", nombre: "Dua Lipa - Don't Start Now"},
+        { id: "4-TbQnONe_w", nombre: "Billie Eilish - bad guy"},
+        { id: "XwxLwG2_Sxk", nombre: "The Weeknd - Blinding Lights"},
+        { id: "0xgaqhe5QiM", nombre: "Shawn Mendes - Treat You Better"},
+        { id: "N1BcpzPGlYQ", nombre: "Maroon 5 - Sugar"},
+        { id: "mwL1cohnHNE", nombre: "Katy Perry - Roar"},
+        { id: "4S_vclBlGZo", nombre: "Lady Gaga - Born This Way"},
+        { id: "W0DM5lcj6mw", nombre: "Imagine Dragons - Believer"},
+        { id: "oovLd9xbr8Y", nombre: "Eminem - Mockingbird"},
+        { id: "YmAQbZYu8Ho", nombre: "Linkin Park - In the End"},
+        { id: "NNMUuJWRyxc", nombre: "Green Day - American Idiot"},
+        { id: "tmIO0eSAXrw", nombre: "Olivia Rodrigo - Good for You"},
+        { id: "47EG91_XHic", nombre: "Carly Rae Jepsen - Call Me Maybe"},
+	    { id: "U-3-bwPvfmg", nombre: "Eminem & Rihanna - Love The Way You Lie"},
         "2I9eC2MRhto", "", "WHHkVUaOxe4",
     ],
     los8090s: [
@@ -67,7 +87,29 @@ const listas = {
     ],
     pendejada: [
         "TUsu2pm4294", "_n74F4xX69U", "yA8I9WId1pQ", "9_IAt4A4p6c", "rZ5W2D_hJm0", "2y-W_D1H4G0", "37aA5M_898g", "C2q6zX98R0g", "vzMQFScqsiY", "YVHQm41_A5g", "LV7szERrKPk", "XeqYwllPQyk", "S71L0V47p2o", "G9bF5X7d9aI", "Z8v4S7X2m9Q", "P2k5W4V1m8L", "L3v9S2M4p7X", "H4m8S3V2k1P", "J8n2V4M6k9L", "S4m1K9V2p3L", "P7v2M5X4k1L", "M2n8V4S1k3P", "K9m4S7V2p5L"
-    ]
+    ],
+    Disney: [
+    { id: "8cZJ_wPpBJg", nombre: "El Rey León - El Ciclo Sin Fin"},
+    { id: "2tKPGsm_5-Y", nombre: "Aladdin - Un Mundo Ideal"},
+    { id: "kY7mwb3EhbM", nombre: "La Bella y la Bestia - Bella y Bestia son"},
+    { id: "abvdJHtkf-Q", nombre: "Frozen - Libre Soy"},
+    { id: "WpGMW-gLC2E", nombre: "Toy Story - Yo soy tu amigo fiel"},
+    { id: "9x0AakpY0HE", nombre: "Mulan - Hombres de Acción"},
+    { id: "tyhkJwkwLKg", nombre: "La Sirenita - Bajo el Mar"},
+    { id: "ayhjqZW1Zto", nombre: "Moana - Cuán Lejos Voy"},
+    { id: "CNom1oaNxyU", nombre: "Coco - Recuérdame"},
+    { id: "A1AYx-qIdec", nombre: "Hércules - No Importa la Distancia"},
+    { id: "uWJ1JPZ8xdA", nombre: "Encanto - No se habla de Bruno"},
+    { id: "QczRVx2rtE4", nombre: "Tarzán - Hijo de Hombre"},
+    { id: "iFr8JSel5ns", nombre: "Pocahontas - Colores en el Viento"},
+    { id: "7WO2WVyfdgA", nombre: "Libro de la Selva - Busca lo más vital"},
+    { id: "gdOVLQKn08w", nombre: "Hércules - De Cero a Héroe"},
+    { id: "7YJ-hCw1vQg", nombre: "Tierra de Osos - En Marcha Estoy"},
+    { id: "HC87GGoWh4U", nombre: "Enredados - ¿Cuándo Empezaré A Vivir?"},
+    { id: "K6ZZJMT_p_w", nombre: "Volt - Ladrando a La Luna"},
+    { id: "llFpeKSa_ZA", nombre: "El Extraño Mundo De Jack - Esto Es Halloween"},
+    { id: "qnwMZkvMQSo", nombre: "Toy Story - Cuando Alguien Me Amaba"}
+]
 };
 
 let cancionesDisponibles = [];
