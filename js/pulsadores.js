@@ -30,8 +30,38 @@ const listas = {
         { id: "CKAm-6HpHlQ", nombre: "La Renga - La Balada del Diablo y La Muerte"}
     ],
     pop: [
-        "zgaCZOQCpp8", "lZEf_izPCfY", "lwOuEq_FoOo", "htk6MRjmcnQ", "Gq-ekgeVGaA", "uYgutBxT8ps", "XpjwYvRryCI", "d2Tu9ctifx4", "2I9eC2MRhto", "pUanlyF510I", "y1HpchKTO4k", "BHIpvqhydLo", "iawgB2CDCrw", "xzVO_1CcwvA", "ipLRRzJ9sWg", "dFp_b5DPIIo", "tdKmewyZPXE", "QC2FoaT7Yb8", "xzNliaWxdjM", "WHHkVUaOxe4", "QvvhiIevsX8", "KxnpFKZowcs", "mgT0N3tMP74", "u7XjPmN-tHw", "O1TFUEMzTvE", "0Ui-QzihJGo", "LhZ5GXCZtEw", "nNcDkT_AoHQ", "BerNfXSuvJ0", "UsuF4jJ4sgA"
-    ], 
+        { id: "WHHkVUaOxe4", nombre: "Ariana Grande - Into You"},
+        { id: "QvvhiIevsX8", nombre: "Teddy Swim - Lose Control"},
+        { id: "y1HpchKTO4k", nombre: "Benson Boone - Slow Down"},
+        { id: "mgT0N3tMP74", nombre: "One Republic - Counting Stars"},
+        { id: "xzNliaWxdjM", nombre: "Harry Styles - Adore You"},
+        { id: "0Ui-QzihJGo", nombre: "Justin Timberlake - Can't Stop The Feeling"},
+        { id: "LhZ5GXCZtEw", nombre: "Bruno Mars - 24K Magic"},
+        { id: "u7XjPmN-tHw", nombre: "Bruno Mars - Just The Way You Are"},
+        { id: "QC2FoaT7Yb8", nombre: "The Weeknd - I Can't Feel My Face"},
+        { id: "zgaCZOQCpp8", nombre: "Bruno Mars & Lady Gaga -  Die With a Smile"},
+        { id: "tdKmewyZPXE", nombre: "Jonas Brothers - Sucker"},
+        { id: "nNcDkT_AoHQ", nombre: "Ariana Grande - No Tears Left To Cry"},
+        { id: "xzVO_1CcwvA", nombre: "Marsmello & Halsey - Be Kind"},
+        { id: "lwOuEq_FoOo", nombre: "Lady Gaga - Abracadabra"},
+        { id: "O1TFUEMzTvE", nombre: "Dua Lipa - New Rules"},
+        { id: "pUanlyF510I", nombre: "Ariana Grande - We Cant Be Friends"},
+        { id: "BHIpvqhydLo", nombre: "Dua Lipa - Houdini"},
+        { id: "iawgB2CDCrw", nombre: "Miley Cyrus - Flower"},
+        { id: "d2Tu9ctifx4", nombre: "Taylor Swift - Opalite"},
+        { id: "htk6MRjmcnQ", nombre: "Kpop Demon Hunters - Golden"},
+        { id: "2I9eC2MRhto", nombre: "Sabrina Carpenter - Espresso"},
+        { id: "XpjwYvRryCI", nombre: "Bruno Mars & Rosé - APT"},
+        { id: "KxnpFKZowcs", nombre: "David Guetta & Sia - Titanium"},
+        { id: "uYgutBxT8ps", nombre: "Sabrina Carpenter - Manchild"}, 
+        { id: "ipLRRzJ9sWg", nombre: "Calvin Harris & Rihanna - This Is What You Came For"},
+        { id: "BerNfXSuvJ0", nombre: "Justin Bieber - Sorry"},
+        { id: "UsuF4jJ4sgA", nombre: "Imagine Dragons - Werever it Takes"},
+        { id: "lZEf_izPCfY", nombre: "Taylor Swift - Fate of Ophelia"},
+        { id: "Gq-ekgeVGaA", nombre: "Benson Boone - Beautiful Things"},
+        { id: "dFp_b5DPIIo", nombre: "Shawn Mendes & Camila Cabello - Señorita"}, 
+        "2I9eC2MRhto", "", "WHHkVUaOxe4",
+    ],
     los8090s: [
         "Gd6CtzYpDBs", "hGPL5rzd3tQ", "LtDlfPYzs38", "qoflJn7zkFM", "cZid3J36wH8", "LPr3N4AMXNQ", "l589L_xRycA", "aXf7Iw_hB14", "CP3sn7T0rxY"
     ],
@@ -41,7 +71,7 @@ const listas = {
 };
 
 let cancionesDisponibles = [];
-let player = null;
+let player = null; 
 let equipoActivo = null;
 let equiposBloqueados = []; 
 
