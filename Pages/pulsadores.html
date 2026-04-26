@@ -62,17 +62,19 @@
         <div class="row justify-content-center g-3 mb-4" id="contenedor-pulsadores">
             </div>
 
-        <div class="row justify-content-center g-3 d-none" id="controles-presentador">
-            
-            <div class="col-12 mb-2">
-                <span class="badge bg-secondary text-light fs-4 border border-light shadow" id="respuesta-secreta">
-                    Respuesta: Cargando...
-                </span>
-            </div>
+<div class="row justify-content-center g-3 d-none" id="controles-presentador">
             
             <div class="col-auto"><button id="btn-correcto" class="btn btn-success btn-lg px-4 fs-3">✅ ¡Correcto! (+10 pts)</button></div>
             <div class="col-auto"><button id="btn-incorrecto" class="btn btn-danger btn-lg px-4 fs-3">❌ Erró (Rebote)</button></div>
             <div class="col-auto"><button id="btn-siguiente" class="btn btn-secondary btn-lg px-4 fs-3">⏭️ Siguiente Tema</button></div>
+
+            <div class="col-12" style="margin-top: 30vh; padding-bottom: 120px;">
+                <p class="text-secondary small mb-2">👇 Zona segura: Respuesta del DJ 👇</p>
+                <span class="badge bg-dark text-info fs-5 border border-secondary shadow p-3" id="respuesta-secreta">
+                    Respuesta: Cargando...
+                </span>
+            </div>
+            
         </div>
 
         <div class="fixed-bottom p-2 bg-dark bg-opacity-75 d-flex justify-content-around fs-5" id="mini-puntos">

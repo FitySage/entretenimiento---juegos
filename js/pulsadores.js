@@ -27,8 +27,7 @@ const listas = {
         { id: "l-mBu_3rI8g", nombre: "Rata Blanca - Mujer Amante"},
         { id: "Jf_Ach2THWs", nombre: "Los Piojos - El Farolito"},
         { id: "Kg2mJM2K8eY", nombre: "Airbag - Cae el sol "},
-        { id: "CKAm-6HpHlQ", nombre: "La Renga - La Balada del Diablo y La Muerte"},
-
+        { id: "CKAm-6HpHlQ", nombre: "La Renga - La Balada del Diablo y La Muerte"}
     ],
     pop: [
         "zgaCZOQCpp8", "lZEf_izPCfY", "lwOuEq_FoOo", "htk6MRjmcnQ", "Gq-ekgeVGaA", "uYgutBxT8ps", "XpjwYvRryCI", "d2Tu9ctifx4", "2I9eC2MRhto", "pUanlyF510I", "y1HpchKTO4k", "BHIpvqhydLo", "iawgB2CDCrw", "xzVO_1CcwvA", "ipLRRzJ9sWg", "dFp_b5DPIIo", "tdKmewyZPXE", "QC2FoaT7Yb8", "xzNliaWxdjM", "WHHkVUaOxe4", "QvvhiIevsX8", "KxnpFKZowcs", "mgT0N3tMP74", "u7XjPmN-tHw", "O1TFUEMzTvE", "0Ui-QzihJGo", "LhZ5GXCZtEw", "nNcDkT_AoHQ", "BerNfXSuvJ0", "UsuF4jJ4sgA"
