@@ -8,11 +8,27 @@ const nombresEquipos = JSON.parse(localStorage.getItem('configJuego')) || {
 // --- BASE DE DATOS MUSICAL (ACEPTA OBJETOS O IDS SOLOS) ---
 const listas = {
     rock: [
-        { id: "5IR5CdvBQPY", nombre: "Foo Fighters - The Pretender" }, 
-        { id: "PyTUcj1fGcs", nombre: "Red Hot Chili Peppers - Californication" },
+        { id: "5IR5CdvBQPY", nombre: "Los Abuelos De La Nada - Mil Horas" }, 
         { id: "wvAIn53VhMA", nombre: "Soda Stereo - Profugos" },
         { id: "zd16sFhTUdg", nombre: "No Te Va Gustar - A Las 9" },
-         "l-mBu_3rI8g", "YTex-t2cwyQ", "PORH8P2ylPA", "F3IVCSrj0CM", "7JlpB4YkB7s", "uJcbNtW-R3Y", "ezlpwCLgiE8", "P0kwvtEP59M", "kLzICexlPzU", "gflJjn2ZBcM", "NQA8wiPLUFU", "2Cql8mG4kWM", "zd16sFhTUdg", "Ng2hpTKrzHQ"
+        { id: "YTex-t2cwyQ", nombre: "Divididos - Spaghetti Del Rock" },
+        { id: "kLzICexlPzU", nombre: "Callejeros - Una Nueva Noche Fría"},
+        { id: "2Cql8mG4kWM", nombre: "Attaque 77 - Arrancacorazones"},
+        { id: "PyTUcj1fGcs", nombre: "Charly García - Nos Siguen Pegando Abajo"},
+        { id: "NQA8wiPLUFU", nombre: "Los Pericos - Complicado y Aturdido"},
+        { id: "Ng2hpTKrzHQ", nombre: "Gustavo Cordera - La Bomba Loca"},
+        { id: "P0kwvtEP59M", nombre: "Callejeros - 9 de Julio"},
+        { id: "gflJjn2ZBcM", nombre: "La Mancha de Rolando - Arde la Ciudad"},
+        { id: "PORH8P2ylPA", nombre: "Enanitos Verdes - Tu Carcel"},
+        { id: "F3IVCSrj0CM", nombre: "Bersuit Vergarabat - Un pacto para vivir"},
+        { id: "7JlpB4YkB7s", nombre: "Intoxicados - Nunca Quise"},
+        { id: "ezlpwCLgiE8", nombre: "Callejeros - Creo"},
+        { id: "uJcbNtW-R3Y", nombre: "Intoxicados - Está saliendo el Sol"},        
+        { id: "l-mBu_3rI8g", nombre: "Rata Blanca - Mujer Amante"},
+        { id: "Jf_Ach2THWs", nombre: "Los Piojos - El Farolito"},
+        { id: "Kg2mJM2K8eY", nombre: "Airbag - Cae el sol "},
+        { id: "CKAm-6HpHlQ", nombre: "La Renga - La Balada del Diablo y La Muerte"},
+
     ],
     pop: [
         "zgaCZOQCpp8", "lZEf_izPCfY", "lwOuEq_FoOo", "htk6MRjmcnQ", "Gq-ekgeVGaA", "uYgutBxT8ps", "XpjwYvRryCI", "d2Tu9ctifx4", "2I9eC2MRhto", "pUanlyF510I", "y1HpchKTO4k", "BHIpvqhydLo", "iawgB2CDCrw", "xzVO_1CcwvA", "ipLRRzJ9sWg", "dFp_b5DPIIo", "tdKmewyZPXE", "QC2FoaT7Yb8", "xzNliaWxdjM", "WHHkVUaOxe4", "QvvhiIevsX8", "KxnpFKZowcs", "mgT0N3tMP74", "u7XjPmN-tHw", "O1TFUEMzTvE", "0Ui-QzihJGo", "LhZ5GXCZtEw", "nNcDkT_AoHQ", "BerNfXSuvJ0", "UsuF4jJ4sgA"
