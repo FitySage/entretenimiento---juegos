@@ -168,9 +168,14 @@ let player = null;
 let equipoActivo = null;
 let equiposBloqueados = []; 
 
-// Variables del Reloj
+// --- VARIABLES DEL RELOJ ---
+// Reloj Global (El de 45 segundos)
 let tiempoRestante = 45;
 let intervaloReloj = null;
+
+// NUEVO: Mini-Reloj (El de 5 segundos para responder)
+let tiempoRespuesta = 5;
+let intervaloRespuesta = null;
 
 // --- ELEMENTOS ---
 const btnReproducir = document.getElementById('btn-reproducir');
@@ -216,7 +221,7 @@ function iniciarCategoria(cat) {
     prepararNuevaCancion();
 }
 
-// --- LÓGICA DEL RELOJ ---
+// --- LÓGICA DE LOS RELOJES ---
 function iniciarReloj() {
     clearInterval(intervaloReloj);
     temporizadorDisplay.classList.remove('d-none', 'text-danger');
@@ -227,9 +232,7 @@ function iniciarReloj() {
         
         if(tiempoRestante <= 10) temporizadorDisplay.classList.add('text-danger');
 
-        if (tiempoRestante <= 0) {
-            dispararTiempoAgotado();
-        }
+        if (tiempoRestante <= 0) dispararTiempoAgotado();
     }, 1000);
 }
 
@@ -239,6 +242,8 @@ function pausarReloj() {
 
 function dispararTiempoAgotado() {
     pausarReloj();
+    clearInterval(intervaloRespuesta); // Matamos el mini-reloj por las dudas
+    
     try { if (player && player.pauseVideo) player.pauseVideo(); } catch(e){}
     
     mensajeEstado.innerText = "¡SE ACABÓ EL TIEMPO!";
@@ -282,11 +287,12 @@ function prepararNuevaCancion() {
     equipoActivo = null;
     equiposBloqueados = []; 
     pausarReloj();
+    clearInterval(intervaloRespuesta); // Reseteamos el mini-reloj
+    
     tiempoRestante = 45; 
     temporizadorDisplay.innerText = tiempoRestante;
     temporizadorDisplay.classList.add('d-none');
     
-    // Restauramos botones parciales por si se ocultaron en la ronda anterior
     document.getElementById('btn-artista').classList.remove('d-none');
     document.getElementById('btn-melodia').classList.remove('d-none');
 
@@ -341,20 +347,18 @@ btnReproducir.addEventListener('click', () => {
     });
 
     try { if (player && player.playVideo) player.playVideo(); } catch (e) {}
-    
     iniciarReloj(); 
 });
 
+// ¡ALGUIEN TOCÓ EL BOTÓN!
 function tocarPulsador(idEquipo) {
     if(equipoActivo) return; 
     equipoActivo = idEquipo;
 
-    pausarReloj(); 
+    pausarReloj(); // Congelamos los 45 segundos
+    clearInterval(intervaloRespuesta); // Por las dudas
 
     try { if (player && player.pauseVideo) player.pauseVideo(); } catch(e){}
-
-    mensajeEstado.innerText = `¡${nombresEquipos[idEquipo].nombre} tiene la palabra!`;
-    mensajeEstado.className = "text-success display-6 fw-bold";
 
     Object.keys(nombresEquipos).forEach(id => {
         const btn = document.getElementById(`pulsador-${id}`);
@@ -366,54 +370,31 @@ function tocarPulsador(idEquipo) {
     });
 
     controlesPresentador.classList.remove('d-none');
-}
 
-// --- SISTEMA DE PUNTOS DINÁMICO ---
-
-// 1. Adivinan el NOMBRE (El juego avanza a la siguiente canción)
-document.getElementById('btn-exacto').addEventListener('click', () => {
-    puntajes[equipoActivo] += 10;
-    actualizarUI();
-    prepararNuevaCancion();
-});
-
-// 2. Adivinan parcial (Artista o Melodía): Suman puntos y la canción SIGUE
-function continuarRonda(puntos, botonId) {
-    puntajes[equipoActivo] += puntos;
-    actualizarUI();
+    // NUEVO: Arrancamos el mini-reloj de la tensión
+    tiempoRespuesta = 15; // Tienen 15 segundos para hablar
     
-    // Ocultamos el botón para que no lo vuelvan a apretar
-    document.getElementById(botonId).classList.add('d-none');
-    
-    mensajeEstado.innerText = "¡Bien! Pero falta el nombre... ¡Sigue sonando!";
-    mensajeEstado.className = "text-warning";
+    // Armamos el cartel con el contador inyectado
+    mensajeEstado.innerHTML = `¡${nombresEquipos[idEquipo].nombre} tiene la palabra!<br><span class="text-white display-3">⏳ <span id="reloj-respuesta">5</span></span>`;
+    mensajeEstado.className = "text-success display-6 fw-bold";
 
-    // Liberamos a los equipos para que puedan volver a pulsar
-    equipoActivo = null;
-    controlesPresentador.classList.add('d-none');
-    
-    Object.keys(nombresEquipos).forEach(id => {
-        const btn = document.getElementById(`pulsador-${id}`);
-        if (btn) {
-            btn.classList.remove('ganador-ronda');
-            // Desbloqueamos solo a los que NO están castigados por errar
-            if (!equiposBloqueados.includes(id)) {
-                btn.classList.remove('bloqueado');
-            }
+    intervaloRespuesta = setInterval(() => {
+        tiempoRespuesta--;
+        const spanReloj = document.getElementById('reloj-respuesta');
+        if (spanReloj) spanReloj.innerText = tiempoRespuesta;
+
+        // Si se acaba el tiempo, hacemos que se equivoquen solos
+        if (tiempoRespuesta <= 0) {
+            procesarError(); // Llama a la función del error
         }
-    });
-
-    // Reanudamos la tortura musical y el reloj
-    try { if (player && player.playVideo) player.playVideo(); } catch(e){}
-    iniciarReloj();
+    }, 1000);
 }
 
-document.getElementById('btn-artista').addEventListener('click', () => continuarRonda(7, 'btn-artista'));
-document.getElementById('btn-melodia').addEventListener('click', () => continuarRonda(5, 'btn-melodia'));
+// --- CENTRALIZAMOS EL ERROR (-2 pts, rebote, reanudar reloj) ---
+function procesarError() {
+    clearInterval(intervaloRespuesta); // Apagamos el mini-reloj de 5s
 
-// 3. SE EQUIVOCAN (Restan 2 puntos y quedan bloqueados)
-document.getElementById('btn-incorrecto').addEventListener('click', () => {
-    puntajes[equipoActivo] -= 2; // Castigo
+    puntajes[equipoActivo] -= 2; 
     actualizarUI();
     
     equiposBloqueados.push(equipoActivo);
@@ -423,7 +404,8 @@ document.getElementById('btn-incorrecto').addEventListener('click', () => {
         return;
     }
 
-    mensajeEstado.innerText = "❌ Incorrecto (-2 pts)... ¡REBOTE!";
+    // Le agregué un mensajito distinto si se les acabó el tiempo
+    mensajeEstado.innerHTML = "❌ Incorrecto o ¡Tiempo Agotado! (-2 pts)<br>¡REBOTE!";
     mensajeEstado.className = "text-danger fw-bold";
     
     equipoActivo = null;
@@ -442,10 +424,55 @@ document.getElementById('btn-incorrecto').addEventListener('click', () => {
     });
 
     try { if (player && player.playVideo) player.playVideo(); } catch(e){}
-    iniciarReloj(); 
+    iniciarReloj(); // Retoma el cronómetro de 45s
+}
+
+// --- SISTEMA DE PUNTOS DINÁMICO ---
+
+// 1. Adivinan el NOMBRE
+document.getElementById('btn-exacto').addEventListener('click', () => {
+    clearInterval(intervaloRespuesta); // Paramos la bomba
+    puntajes[equipoActivo] += 10;
+    actualizarUI();
+    prepararNuevaCancion();
 });
 
-// Botón para que el DJ pase la canción si todos se rinden
+// 2. Adivinan parcial (Artista o Melodía)
+function continuarRonda(puntos, botonId) {
+    clearInterval(intervaloRespuesta); // Paramos la bomba
+    puntajes[equipoActivo] += puntos;
+    actualizarUI();
+    
+    document.getElementById(botonId).classList.add('d-none');
+    
+    mensajeEstado.innerText = "¡Bien! Pero falta el nombre... ¡Sigue sonando!";
+    mensajeEstado.className = "text-warning";
+
+    equipoActivo = null;
+    controlesPresentador.classList.add('d-none');
+    
+    Object.keys(nombresEquipos).forEach(id => {
+        const btn = document.getElementById(`pulsador-${id}`);
+        if (btn) {
+            btn.classList.remove('ganador-ronda');
+            if (!equiposBloqueados.includes(id)) {
+                btn.classList.remove('bloqueado');
+            }
+        }
+    });
+
+    try { if (player && player.playVideo) player.playVideo(); } catch(e){}
+    iniciarReloj();
+}
+
+document.getElementById('btn-artista').addEventListener('click', () => continuarRonda(7, 'btn-artista'));
+document.getElementById('btn-melodia').addEventListener('click', () => continuarRonda(5, 'btn-melodia'));
+
+// 3. SE EQUIVOCAN (Tocando el botón)
+// Simplemente llamamos a la misma función que si se les acabara el tiempo
+document.getElementById('btn-incorrecto').addEventListener('click', procesarError);
+
+// 4. PASAR TEMA
 document.getElementById('btn-siguiente').addEventListener('click', prepararNuevaCancion);
 
 // --- FINALIZAR ---
