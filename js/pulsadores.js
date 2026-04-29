@@ -5,7 +5,7 @@ const nombresEquipos = JSON.parse(localStorage.getItem('configJuego')) || {
     equipo3: { nombre: "Equipo 3" }, equipo4: { nombre: "Equipo 4" }
 };
 
-// --- BASE DE DATOS MUSICAL ---
+// --- BASE DE DATOS MUSICAL (Mantenida intacta) ---
 const listas = {
     rock: [
         { id: "5IR5CdvBQPY", nombre: "Los Abuelos De La Nada - Mil Horas" },
@@ -106,10 +106,8 @@ const listas = {
         { id: "l589L_xRycA", nombre: "Aerosmith - Crazy" },
         { id: "CP3sn7T0rxY", nombre: "Guns N' Roses - Welcome To The Jungle" },
         { id: "aXf7Iw_hB14", nombre: "Extreme - More Than Words" }
-
     ],
-    pendejada: [ 
-    ],
+    pendejada: [],
     Disney: [
         { id: "8cZJ_wPpBJg", nombre: "El Rey León - El Ciclo Sin Fin" },
         { id: "2tKPGsm_5-Y", nombre: "Aladdin - Un Mundo Ideal" },
@@ -158,8 +156,6 @@ const listas = {
         { id: "q5PY4PzhKEA", nombre: "Hotel Transylvania - Hicimos Click" },
         { id: "zKLGTyqX13M", nombre: "Sing- I'm Still Standing" },
         { id: "sZxl4ljVCug", nombre: "Encanto - Inspiración" },
-
-
     ]
 };
 
@@ -168,13 +164,14 @@ let player = null;
 let equipoActivo = null;
 let equiposBloqueados = []; 
 
+// --- VARIABLES MODO PLAYLIST (EL DJ JUEGA) ---
+let esModoPlaylist = false;
+let primerTemaCargado = false;
+
 // --- VARIABLES DEL RELOJ ---
-// Reloj Global (El de 45 segundos)
 let tiempoRestante = 45;
 let intervaloReloj = null;
-
-// NUEVO: Mini-Reloj (El de 5 segundos para responder)
-let tiempoRespuesta = 5;
+let tiempoRespuesta = 15;
 let intervaloRespuesta = null;
 
 // --- ELEMENTOS ---
@@ -186,11 +183,13 @@ const controlesTiempoAgotado = document.getElementById('controles-tiempo-agotado
 const temporizadorDisplay = document.getElementById('temporizador-display');
 const miniPuntos = document.getElementById('mini-puntos');
 const respuestaSecreta = document.getElementById('respuesta-secreta');
+const contenedorReproductor = document.getElementById('contenedor-reproductor');
 
 function onYouTubeIframeAPIReady() {
+    // Al hacerlo visible después, necesitamos que sea un poco más grande
     player = new YT.Player('yt-player', {
-        height: '10', width: '10', videoId: '',
-        playerVars: { 'playsinline': 1, 'controls': 0 }
+        height: '315', width: '100%', videoId: '',
+        playerVars: { 'playsinline': 1, 'controls': 1 }
     });
 }
 
@@ -213,13 +212,128 @@ function actualizarUI() {
     });
 }
 
+// --- 1. MODO CLÁSICO ---
 function iniciarCategoria(cat) {
+    if(listas[cat].length === 0) {
+        alert("Aún no hay canciones cargadas en esta categoría.");
+        return;
+    }
+    esModoPlaylist = false;
     cancionesDisponibles = [...listas[cat]];
     document.getElementById('seleccion-categoria').classList.add('d-none');
     document.getElementById('juego-musica').classList.remove('d-none');
     actualizarUI();
     prepararNuevaCancion();
 }
+
+// --- 2. MODO PLAYLIST (Vos jugás) ---
+window.iniciarConPlaylist = function() {
+    const url = document.getElementById('link-playlist').value;
+    const match = url.match(/[?&]list=([^#\&\?]+)/); 
+    
+    if (!match) {
+        alert("El link no parece válido. Asegurate que tenga 'list=...' en la dirección.");
+        return;
+    }
+
+    esModoPlaylist = true;
+    primerTemaCargado = true; 
+    
+    const modalElement = document.getElementById('modalPlaylist');
+    const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+    modalInstance.hide();
+
+    document.getElementById('seleccion-categoria').classList.add('d-none');
+    document.getElementById('juego-musica').classList.remove('d-none');
+    actualizarUI();
+
+    player.loadPlaylist({list: match[1], listType: 'playlist'});
+
+    mensajeEstado.innerText = "Preparando y mezclando lista secreta...";
+    mensajeEstado.className = "text-warning";
+    btnReproducir.classList.add('d-none');
+
+    setTimeout(() => {
+        player.setShuffle(true);
+        player.nextVideo();
+        setTimeout(() => { 
+            player.pauseVideo(); 
+            primerTemaCargado = false; 
+            prepararNuevaCancion();
+        }, 1000);
+    }, 2000);
+}
+
+// --- PREPARAR LA CANCIÓN ---
+function prepararNuevaCancion() {
+    if (!esModoPlaylist && cancionesDisponibles.length === 0) {
+        alert("¡Se terminaron las canciones!");
+        finalizarJuego();
+        return;
+    }
+
+    contenedorReproductor.className = "reproductor-fantasma mb-3";
+
+    equipoActivo = null;
+    equiposBloqueados = []; 
+    pausarReloj();
+    clearInterval(intervaloRespuesta); 
+    
+    tiempoRestante = 45; 
+    temporizadorDisplay.innerText = tiempoRestante;
+    temporizadorDisplay.classList.add('d-none');
+    
+    document.getElementById('btn-artista').classList.remove('d-none');
+    document.getElementById('btn-melodia').classList.remove('d-none');
+
+    controlesPresentador.classList.add('d-none');
+    controlesTiempoAgotado.classList.add('d-none');
+    
+    if (!primerTemaCargado) {
+        btnReproducir.classList.remove('d-none');
+        mensajeEstado.innerText = "¡Toquen Reproducir cuando estén listos!";
+        mensajeEstado.className = "text-info";
+    }
+
+    Object.keys(nombresEquipos).forEach(id => {
+        const btn = document.getElementById(`pulsador-${id}`);
+        if(btn) {
+            btn.classList.add('bloqueado');
+            btn.classList.remove('ganador-ronda');
+        }
+    });
+
+    if (esModoPlaylist) {
+        if (respuestaSecreta) respuestaSecreta.innerText = "🎧 Modo Playlist Secreto\n(Tocá 'Mostrar Video' para revelar la respuesta).";
+        
+        if (!primerTemaCargado) {
+            player.nextVideo();
+            setTimeout(() => player.pauseVideo(), 500);
+        }
+    } else {
+        const indice = Math.floor(Math.random() * cancionesDisponibles.length);
+        const cancionActualInfo = cancionesDisponibles[indice];
+        cancionesDisponibles.splice(indice, 1);
+
+        let idVideo = typeof cancionActualInfo === 'object' ? cancionActualInfo.id : cancionActualInfo;
+        let nombreParaMostrar = typeof cancionActualInfo === 'object' ? cancionActualInfo.nombre : `ID: ${idVideo}`;
+
+        if (respuestaSecreta) respuestaSecreta.innerText = `${nombreParaMostrar}`;
+
+        if (player && player.loadVideoById) {
+            player.loadVideoById(idVideo);
+            player.pauseVideo();
+        }
+    }
+}
+
+// BOTÓN MÁGICO: Revelar el video en pantalla
+document.getElementById('btn-revelar-video').addEventListener('click', () => {
+    contenedorReproductor.className = "reproductor-visible mb-3"; 
+    if(player && player.playVideo) player.playVideo(); 
+    mensajeEstado.innerText = "¡AQUÍ ESTÁ LA RESPUESTA!";
+    mensajeEstado.className = "text-info display-6 fw-bold";
+});
 
 // --- LÓGICA DE LOS RELOJES ---
 function iniciarReloj() {
@@ -231,7 +345,6 @@ function iniciarReloj() {
         temporizadorDisplay.innerText = tiempoRestante;
         
         if(tiempoRestante <= 10) temporizadorDisplay.classList.add('text-danger');
-
         if (tiempoRestante <= 0) dispararTiempoAgotado();
     }, 1000);
 }
@@ -242,7 +355,7 @@ function pausarReloj() {
 
 function dispararTiempoAgotado() {
     pausarReloj();
-    clearInterval(intervaloRespuesta); // Matamos el mini-reloj por las dudas
+    clearInterval(intervaloRespuesta); 
     
     try { if (player && player.pauseVideo) player.pauseVideo(); } catch(e){}
     
@@ -267,6 +380,11 @@ function dispararTiempoAgotado() {
     });
 
     controlesTiempoAgotado.classList.remove('d-none');
+
+    // Auto-revelar el video en Modo Playlist para que vean la respuesta
+    if(esModoPlaylist) {
+        contenedorReproductor.className = "reproductor-visible mb-3";
+    }
 }
 
 window.asignarPuntosCerca = function(idEquipo) {
@@ -276,63 +394,6 @@ window.asignarPuntosCerca = function(idEquipo) {
 }
 
 document.getElementById('btn-nadie-cerca').addEventListener('click', prepararNuevaCancion);
-
-function prepararNuevaCancion() {
-    if (cancionesDisponibles.length === 0) {
-        alert("¡Se terminaron las canciones!");
-        finalizarJuego();
-        return;
-    }
-
-    equipoActivo = null;
-    equiposBloqueados = []; 
-    pausarReloj();
-    clearInterval(intervaloRespuesta); // Reseteamos el mini-reloj
-    
-    tiempoRestante = 45; 
-    temporizadorDisplay.innerText = tiempoRestante;
-    temporizadorDisplay.classList.add('d-none');
-    
-    document.getElementById('btn-artista').classList.remove('d-none');
-    document.getElementById('btn-melodia').classList.remove('d-none');
-
-    controlesPresentador.classList.add('d-none');
-    controlesTiempoAgotado.classList.add('d-none');
-    btnReproducir.classList.remove('d-none');
-    
-    mensajeEstado.innerText = "¡Toquen Reproducir cuando estén listos!";
-    mensajeEstado.className = "text-info";
-
-    Object.keys(nombresEquipos).forEach(id => {
-        const btn = document.getElementById(`pulsador-${id}`);
-        if(btn) {
-            btn.classList.add('bloqueado');
-            btn.classList.remove('ganador-ronda');
-        }
-    });
-
-    const indice = Math.floor(Math.random() * cancionesDisponibles.length);
-    const cancionActualInfo = cancionesDisponibles[indice];
-    cancionesDisponibles.splice(indice, 1);
-
-    let idVideo = "";
-    let nombreParaMostrar = "";
-
-    if (typeof cancionActualInfo === 'object') {
-        idVideo = cancionActualInfo.id;
-        nombreParaMostrar = cancionActualInfo.nombre;
-    } else {
-        idVideo = cancionActualInfo;
-        nombreParaMostrar = `ID: ${idVideo}`;
-    }
-
-    if (respuestaSecreta) respuestaSecreta.innerText = `${nombreParaMostrar}`;
-
-    if (player && player.loadVideoById) {
-        player.loadVideoById(idVideo);
-        player.pauseVideo();
-    }
-}
 
 btnReproducir.addEventListener('click', () => {
     btnReproducir.classList.add('d-none');
@@ -355,8 +416,8 @@ function tocarPulsador(idEquipo) {
     if(equipoActivo) return; 
     equipoActivo = idEquipo;
 
-    pausarReloj(); // Congelamos los 45 segundos
-    clearInterval(intervaloRespuesta); // Por las dudas
+    pausarReloj(); 
+    clearInterval(intervaloRespuesta); 
 
     try { if (player && player.pauseVideo) player.pauseVideo(); } catch(e){}
 
@@ -371,11 +432,10 @@ function tocarPulsador(idEquipo) {
 
     controlesPresentador.classList.remove('d-none');
 
-    // NUEVO: Arrancamos el mini-reloj de la tensión
-    tiempoRespuesta = 15; // Tienen 15 segundos para hablar
+    tiempoRespuesta = 15; 
     
-    // Armamos el cartel con el contador inyectado
-    mensajeEstado.innerHTML = `¡${nombresEquipos[idEquipo].nombre} tiene la palabra!<br><span class="text-white display-3">⏳ <span id="reloj-respuesta">5</span></span>`;
+    // Corregido: Ahora el reloj visual arranca en 15 igual que la variable de lógica
+    mensajeEstado.innerHTML = `¡${nombresEquipos[idEquipo].nombre} tiene la palabra!<br><span class="text-white display-3">⏳ <span id="reloj-respuesta">15</span></span>`;
     mensajeEstado.className = "text-success display-6 fw-bold";
 
     intervaloRespuesta = setInterval(() => {
@@ -383,16 +443,14 @@ function tocarPulsador(idEquipo) {
         const spanReloj = document.getElementById('reloj-respuesta');
         if (spanReloj) spanReloj.innerText = tiempoRespuesta;
 
-        // Si se acaba el tiempo, hacemos que se equivoquen solos
         if (tiempoRespuesta <= 0) {
-            procesarError(); // Llama a la función del error
+            procesarError(); 
         }
     }, 1000);
 }
 
-// --- CENTRALIZAMOS EL ERROR (-2 pts, rebote, reanudar reloj) ---
 function procesarError() {
-    clearInterval(intervaloRespuesta); // Apagamos el mini-reloj de 5s
+    clearInterval(intervaloRespuesta); 
 
     puntajes[equipoActivo] -= 2; 
     actualizarUI();
@@ -404,7 +462,6 @@ function procesarError() {
         return;
     }
 
-    // Le agregué un mensajito distinto si se les acabó el tiempo
     mensajeEstado.innerHTML = "❌ Incorrecto o ¡Tiempo Agotado! (-2 pts)<br>¡REBOTE!";
     mensajeEstado.className = "text-danger fw-bold";
     
@@ -424,22 +481,20 @@ function procesarError() {
     });
 
     try { if (player && player.playVideo) player.playVideo(); } catch(e){}
-    iniciarReloj(); // Retoma el cronómetro de 45s
+    iniciarReloj(); 
 }
 
 // --- SISTEMA DE PUNTOS DINÁMICO ---
 
-// 1. Adivinan el NOMBRE
 document.getElementById('btn-exacto').addEventListener('click', () => {
-    clearInterval(intervaloRespuesta); // Paramos la bomba
+    clearInterval(intervaloRespuesta); 
     puntajes[equipoActivo] += 10;
     actualizarUI();
     prepararNuevaCancion();
 });
 
-// 2. Adivinan parcial (Artista o Melodía)
 function continuarRonda(puntos, botonId) {
-    clearInterval(intervaloRespuesta); // Paramos la bomba
+    clearInterval(intervaloRespuesta); 
     puntajes[equipoActivo] += puntos;
     actualizarUI();
     
@@ -461,18 +516,15 @@ function continuarRonda(puntos, botonId) {
         }
     });
 
+    contenedorReproductor.className = "reproductor-fantasma mb-3";
+
     try { if (player && player.playVideo) player.playVideo(); } catch(e){}
     iniciarReloj();
 }
 
 document.getElementById('btn-artista').addEventListener('click', () => continuarRonda(7, 'btn-artista'));
 document.getElementById('btn-melodia').addEventListener('click', () => continuarRonda(5, 'btn-melodia'));
-
-// 3. SE EQUIVOCAN (Tocando el botón)
-// Simplemente llamamos a la misma función que si se les acabara el tiempo
 document.getElementById('btn-incorrecto').addEventListener('click', procesarError);
-
-// 4. PASAR TEMA
 document.getElementById('btn-siguiente').addEventListener('click', prepararNuevaCancion);
 
 // --- FINALIZAR ---
