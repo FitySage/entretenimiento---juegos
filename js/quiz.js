@@ -26,7 +26,89 @@ const basePreguntas = [
         pregunta: "¿De qué color es la bandera de Japón?",
         opciones: ["Roja y Azul", "Blanca y Roja", "Azul y Amarilla", "Verde y Blanca"],
         correcta: 1
-    }
+    },
+    {
+        pregunta: "¿Cuál es el río más largo del mundo?",
+        opciones: ["Nilo", "Amazonas", "Yangtsé", "Misisipi"],
+        correcta: 1 
+    }, 
+        {
+        pregunta: "¿Cuál de los siguientes animales no es un marsupial?",
+        opciones: ["Caguro", "Walabi", "Wombat", "Oso Hormiguero"],
+        correcta: 4
+    },     {
+        pregunta: "¿Cual es el animal más rápido del mundo?",
+        opciones: ["Guepardo", "León", "Tigre", "Zebra"],
+        correcta: 1
+    },     {
+        pregunta: "¿Cuantos continentes hay en el mundo?",
+        opciones: ["5", "6", "7", "8"],
+        correcta: 2 
+    },     {
+        pregunta: "¿Que es ?",
+        opciones: [],
+        correcta: 1 
+    },     {
+        pregunta: "¿Cuál es el río más largo del mundo?",
+        opciones: ["Nilo", "Amazonas", "Yangtsé", "Misisipi"],
+        correcta: 1 
+    },     {
+        pregunta: "¿Cuál es el río más largo del mundo?",
+        opciones: ["Nilo", "Amazonas", "Yangtsé", "Misisipi"],
+        correcta: 1 
+    },     {
+        pregunta: "¿Cuál es el río más largo del mundo?",
+        opciones: ["Nilo", "Amazonas", "Yangtsé", "Misisipi"],
+        correcta: 1 
+    },     {
+        pregunta: "¿Cuál es el río más largo del mundo?",
+        opciones: ["Nilo", "Amazonas", "Yangtsé", "Misisipi"],
+        correcta: 1 
+    },     {
+        pregunta: "¿Cuál es el río más largo del mundo?",
+        opciones: ["Nilo", "Amazonas", "Yangtsé", "Misisipi"],
+        correcta: 1 
+    },     {
+        pregunta: "¿Cuál es el río más largo del mundo?",
+        opciones: ["Nilo", "Amazonas", "Yangtsé", "Misisipi"],
+        correcta: 1 
+    },     {
+        pregunta: "¿Cuál es el río más largo del mundo?",
+        opciones: ["Nilo", "Amazonas", "Yangtsé", "Misisipi"],
+        correcta: 1 
+    },     {
+        pregunta: "¿Cuál es el río más largo del mundo?",
+        opciones: ["Nilo", "Amazonas", "Yangtsé", "Misisipi"],
+        correcta: 1 
+    },     {
+        pregunta: "¿Cuál es el río más largo del mundo?",
+        opciones: ["Nilo", "Amazonas", "Yangtsé", "Misisipi"],
+        correcta: 1 
+    },     {
+        pregunta: "¿Cuál es el río más largo del mundo?",
+        opciones: ["Nilo", "Amazonas", "Yangtsé", "Misisipi"],
+        correcta: 1 
+    },     {
+        pregunta: "¿Cuál es el río más largo del mundo?",
+        opciones: ["Nilo", "Amazonas", "Yangtsé", "Misisipi"],
+        correcta: 1 
+    },     {
+        pregunta: "¿Cuál es el río más largo del mundo?",
+        opciones: ["Nilo", "Amazonas", "Yangtsé", "Misisipi"],
+        correcta: 1 
+    },     {
+        pregunta: "¿Cuál es el río más largo del mundo?",
+        opciones: ["Nilo", "Amazonas", "Yangtsé", "Misisipi"],
+        correcta: 1 
+    },     {
+        pregunta: "¿Cuál es el río más largo del mundo?",
+        opciones: ["Nilo", "Amazonas", "Yangtsé", "Misisipi"],
+        correcta: 1 
+    },     {
+        pregunta: "¿Cuál es el río más largo del mundo?",
+        opciones: ["Nilo", "Amazonas", "Yangtsé", "Misisipi"],
+        correcta: 1 
+    }, 
     // ¡Podés agregar las preguntas familiares que quieras!
 ];
 
