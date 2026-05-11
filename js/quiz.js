@@ -118,66 +118,66 @@ const preguntasTrivia = [
     {
         pregunta: "¿Cuál es el animal terrestre más rápido del mundo?",
         opciones: ["León", "Guepardo", "Avestruz", "Caballo"],
-        correcta: 1 
+        correcta: 1
     },
     {
         pregunta: "¿Cuántos corazones tiene un pulpo?",
         opciones: ["Uno", "Dos", "Tres", "Cuatro"],
-        correcta: 2 
+        correcta: 2
     },
     {
         pregunta: "¿Qué animal es el único mamífero capaz de volar?",
         opciones: ["Ardilla voladora", "Murciélago", "Colugo", "Lémur"],
-        correcta: 1 
+        correcta: 1
     },
 
     // --- CULTURA GENERAL ---
     {
         pregunta: "¿En qué país se encuentra la famosa Torre de Pisa?",
         opciones: ["Francia", "España", "Grecia", "Italia"],
-        correcta: 3 
+        correcta: 3
     },
     {
         pregunta: "¿Quién escribió la novela 'Cien años de soledad'?",
         opciones: ["Julio Cortázar", "Gabriel García Márquez", "Jorge Luis Borges", "Pablo Neruda"],
-        correcta: 1 
+        correcta: 1
     },
     {
         pregunta: "¿Cuál es el océano más grande del mundo?",
         opciones: ["Océano Atlántico", "Océano Índico", "Océano Pacífico", "Océano Ártico"],
-        correcta: 2 
+        correcta: 2
     },
 
     // --- CIENCIA ---
     {
         pregunta: "¿Cuál es el planeta más grande de nuestro sistema solar?",
         opciones: ["Saturno", "Júpiter", "Urano", "Neptuno"],
-        correcta: 1 
+        correcta: 1
     },
     {
         pregunta: "¿Qué elemento químico está representado por el símbolo 'O'?",
         opciones: ["Oro", "Osmio", "Oxígeno", "Oganesón"],
-        correcta: 2 
+        correcta: 2
     },
     {
         pregunta: "¿Cuál es el órgano más grande del cuerpo humano?",
         opciones: ["El hígado", "Los pulmones", "El intestino", "La piel"],
-        correcta: 3 
+        correcta: 3
     },
     {
         pregunta: "¿Qué gas absorben las plantas durante la fotosíntesis?",
         opciones: ["Oxígeno", "Dióxido de carbono", "Nitrógeno", "Helio"],
-        correcta: 1 
+        correcta: 1
     },
     {
         pregunta: "¿En qué año ganó Argentina su primer mundial de fútbol?",
         opciones: ["1978", "1986", "2022", "1990"],
-        correcta: 0 
+        correcta: 0
     },
     {
         pregunta: "¿Cuál es el planeta más grande del sistema solar?",
         opciones: ["Tierra", "Marte", "Júpiter", "Saturno"],
-        correcta: 2 
+        correcta: 2
     },
     {
         pregunta: "¿Qué animal es conocido como el mejor amigo del hombre?",
@@ -211,10 +211,10 @@ const preguntasTrivia = [
 
 // Variables del juego
 // ¡AQUÍ ESTABA EL ERROR! (Cambié basePreguntas por preguntasTrivia)
-let preguntasDisponibles = [...preguntasTrivia]; 
+let preguntasDisponibles = [...preguntasTrivia];
 let preguntaActual = null;
 let equipoActivo = null;
-let equiposBloqueados = []; 
+let equiposBloqueados = [];
 
 // --- ELEMENTOS HTML ---
 const textoPregunta = document.getElementById('texto-pregunta');
@@ -261,7 +261,7 @@ function nuevaRonda() {
 
     const indice = Math.floor(Math.random() * preguntasDisponibles.length);
     preguntaActual = preguntasDisponibles[indice];
-    preguntasDisponibles.splice(indice, 1); 
+    preguntasDisponibles.splice(indice, 1);
 
     equipoActivo = null;
     equiposBloqueados = [];
@@ -273,12 +273,12 @@ function nuevaRonda() {
 
     for (let i = 0; i < 4; i++) {
         document.getElementById(`op-${i}`).innerText = preguntaActual.opciones[i];
-        document.getElementById(`op-${i}`).className = "btn btn-light w-100 btn-opcion shadow"; 
+        document.getElementById(`op-${i}`).className = "btn btn-light w-100 btn-opcion shadow";
     }
 
-    contenedorOpciones.classList.add('d-none'); 
-    contenedorPulsadores.classList.remove('d-none'); 
-    btnSiguiente.classList.add('d-none'); 
+    contenedorOpciones.classList.add('d-none');
+    contenedorPulsadores.classList.remove('d-none');
+    btnSiguiente.classList.add('d-none');
 
     actualizarUI();
 }
@@ -291,6 +291,10 @@ function darPalabra(idEquipo) {
 
     contenedorPulsadores.classList.add('d-none');
     contenedorOpciones.classList.remove('d-none');
+    // --- NUEVO: AUTO-SCROLL A LAS OPCIONES ---
+    setTimeout(() => {
+        contenedorOpciones.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 150); // Le damos 150 milisegundos para que primero dibuje los botones y luego baje
 }
 
 function verificarRespuesta(indiceElegido) {
@@ -298,7 +302,7 @@ function verificarRespuesta(indiceElegido) {
 
     if (indiceElegido === preguntaActual.correcta) {
         sonidoCorrecto.play().catch(e => console.log(e));
-        puntajes[equipoActivo] += 10; 
+        puntajes[equipoActivo] += 10;
 
         document.getElementById(`op-${indiceElegido}`).classList.replace('btn-light', 'btn-success');
         mensajeEstado.innerText = `✅ ¡CORRECTO! +10 puntos para ${nombresEquipos[equipoActivo].nombre}`;
@@ -311,7 +315,7 @@ function verificarRespuesta(indiceElegido) {
     } else {
         sonidoError.play().catch(e => console.log(e));
 
-        document.getElementById(`op-${indiceElegido}`).classList.replace('btn-light', 'btn-danger'); 
+        document.getElementById(`op-${indiceElegido}`).classList.replace('btn-light', 'btn-danger');
 
         equiposBloqueados.push(equipoActivo);
         equipoActivo = null;

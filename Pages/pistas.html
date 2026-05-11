@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,18 +16,47 @@
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
             min-height: 100px;
         }
-        .btn-pulsador { height: 120px; font-size: 1.8rem; border-radius: 20px; font-weight: bold; transition: transform 0.1s;}
-        .btn-pulsador:active { transform: scale(0.95); }
-        .bloqueado { opacity: 0.3; pointer-events: none; filter: grayscale(100%); }
-        .reloj-ronda { font-size: 3rem; font-weight: bold; }
-        .pista-texto { font-size: 2.5rem; color: #ffb703; font-weight: bold; text-shadow: 2px 2px 5px rgba(0,0,0,0.8); }
+
+        .btn-pulsador {
+            height: 120px;
+            font-size: 1.8rem;
+            border-radius: 20px;
+            font-weight: bold;
+            transition: transform 0.1s;
+        }
+
+        .btn-pulsador:active {
+            transform: scale(0.95);
+        }
+
+        .bloqueado {
+            opacity: 0.3;
+            pointer-events: none;
+            filter: grayscale(100%);
+        }
+
+        .reloj-ronda {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .pista-texto {
+            font-size: 2.5rem;
+            color: #ffb703;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+        }
     </style>
 </head>
+
 <body class="pantalla-principal d-flex flex-column min-vh-100 p-3 text-center">
 
     <header class="d-flex justify-content-between align-items-center mb-3">
         <a href="../index.html" class="btn btn-outline-light btn-lg shadow">⬅ Volver</a>
         <h3 class="text-white m-0">🕵️‍♂️ Pista a Pista</h3>
+        <button onclick="activarPantallaCompleta()" class="btn btn-outline-light mb-3 shadow rounded-pill">
+            🔲 Poner en Pantalla Completa
+        </button>
         <div class="d-flex align-items-center gap-2">
             <span class="badge bg-danger fs-5 shadow" id="ronda-display">Ronda 1/7 | Puntos: 100</span>
             <button id="btn-finalizar" class="btn btn-danger shadow rounded-pill fw-bold">🏆 Terminar</button>
@@ -34,29 +64,33 @@
     </header>
 
     <section class="flex-grow-1 d-flex flex-column justify-content-center align-items-center mb-4">
-        
+
         <div class="tarjeta-menu p-4 w-100 mb-4" style="max-width: 900px;">
             <div class="reloj-ronda text-white mb-2">⏱️ <span id="tiempo-display">20</span></div>
             <p class="text-light mb-1 fs-4">Pista actual:</p>
             <div id="contenedor-pista" class="pista-texto mb-4">Pulsen "Empezar" para ver la primera pista</div>
-            
+
             <div id="palabra-secreta" class="letras-misterio text-white">? ? ? ?</div>
         </div>
 
         <div class="mb-4 d-flex flex-column align-items-center gap-2">
-            <button id="btn-iniciar" class="btn btn-primary btn-lg px-5 py-3 fs-3 rounded-pill shadow">▶️ Empezar Ronda</button>
-            
-            <button id="btn-omitir-tiempo" class="btn btn-outline-light bg-dark bg-opacity-50 btn-lg px-4 py-2 fs-5 rounded-pill shadow d-none">
+            <button id="btn-iniciar" class="btn btn-primary btn-lg px-5 py-3 fs-3 rounded-pill shadow">▶️ Empezar
+                Ronda</button>
+
+            <button id="btn-omitir-tiempo"
+                class="btn btn-outline-light bg-dark bg-opacity-50 btn-lg px-4 py-2 fs-5 rounded-pill shadow d-none">
                 ⏭️ Nadie sabe (Adelantar)
             </button>
-            
-            <button id="btn-siguiente-pista" class="btn btn-warning btn-lg px-5 py-3 fs-3 rounded-pill shadow d-none">Siguiente Pista ⏭️</button>
+
+            <button id="btn-siguiente-pista"
+                class="btn btn-warning btn-lg px-5 py-3 fs-3 rounded-pill shadow d-none">Siguiente Pista ⏭️</button>
         </div>
 
         <div id="zona-respuesta" class="d-none w-100 mb-4" style="max-width: 600px;">
             <h3 id="mensaje-responde" class="text-white mb-3">¡Equipo 1 responde!</h3>
             <div class="input-group input-group-lg shadow">
-                <input type="text" id="input-palabra" class="form-control text-center text-uppercase fs-3" placeholder="Escribí la palabra acá..." autocomplete="off">
+                <input type="text" id="input-palabra" class="form-control text-center text-uppercase fs-3"
+                    placeholder="Escribí la palabra acá..." autocomplete="off">
                 <button id="btn-enviar-respuesta" class="btn btn-success px-4 fw-bold fs-4">Enviar ✅</button>
             </div>
             <button id="btn-cancelar" class="btn btn-danger mt-3 fw-bold shadow">❌ Me equivoqué (Cancelar)</button>
@@ -70,5 +104,19 @@
 
     <script src="../js/historial.js"></script>
     <script src="../js/pistas.js"></script>
+    <script>
+        function activarPantallaCompleta() {
+            let elem = document.documentElement;
+            if (!document.fullscreenElement) {
+                if (elem.requestFullscreen) { elem.requestFullscreen(); }
+                else if (elem.webkitRequestFullscreen) { elem.webkitRequestFullscreen(); } // Safari
+                else if (elem.msRequestFullscreen) { elem.msRequestFullscreen(); } // IE11
+            } else {
+                if (document.exitFullscreen) { document.exitFullscreen(); }
+                else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
+            }
+        }
+    </script>
 </body>
+
 </html>

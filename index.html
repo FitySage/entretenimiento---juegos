@@ -11,9 +11,12 @@
 
 <body class="pantalla-principal">
     <main class="container py-5">
-        
+
         <header class="mb-5 text-center">
-            <h1 class="display-3 fw-bold titulo-animado mb-3">Juegos en Familia 🏠</h1>
+            <h1 class="display-3 fw-bold titulo-animado mb-3">Juegos en Familia 🏠</h1> <button
+                onclick="activarPantallaCompleta()" class="btn btn-outline-light mb-3 shadow rounded-pill">
+                🔲 Poner en Pantalla Completa
+            </button>
             <p class="fs-4 text-light shadow-sm">¡Configurá los equipos y elegí a qué jugar!</p>
         </header>
 
@@ -47,23 +50,25 @@
                             </div>
                         </div>
                     </div>
-                    <button onclick="guardarConfiguracion()" class="btn btn-success mt-4 w-100 py-3 fs-4 fw-bold shadow rounded-pill">
+                    <button onclick="guardarConfiguracion()"
+                        class="btn btn-success mt-4 w-100 py-3 fs-4 fw-bold shadow rounded-pill">
                         💾 Guardar Equipos
                     </button>
                 </div>
             </div>
         </div>
 
-        <h2 class="text-center text-warning mb-4 fw-bold text-shadow border-bottom border-warning pb-2">🍻 Para la Familia y Adultos 🍻</h2>
+        <h2 class="text-center text-warning mb-4 fw-bold text-shadow border-bottom border-warning pb-2">🍻 Para la
+            Familia y Adultos 🍻</h2>
         <div class="row g-4 text-center justify-content-center mb-5">
-            
+
             <div class="col-md-6 col-lg-3">
                 <a href="./Pages/pulsadores.html" class="tarjeta-menu tarjeta-juego p-4">
                     <div class="display-3 mb-2">🎵</div>
                     <h3 class="h4 fw-bold">Adivina la Canción</h3>
                 </a>
             </div>
-            
+
             <div class="col-md-6 col-lg-3">
                 <a href="./Pages/pistas.html" class="tarjeta-menu tarjeta-juego p-4">
                     <div class="display-3 mb-2">🕵️‍♂️</div>
@@ -87,7 +92,8 @@
             </div>
         </div>
 
-        <h2 class="text-center text-info mb-4 fw-bold text-shadow border-bottom border-info pb-2">🧸 Didácticos para los Peques 🧸</h2>
+        <h2 class="text-center text-info mb-4 fw-bold text-shadow border-bottom border-info pb-2">🧸 Didácticos para los
+            Peques 🧸</h2>
         <div class="row g-4 text-center justify-content-center pb-5">
             <div class="col-md-6 col-lg-4">
                 <a href="./Pages/adivina-animal.html" class="tarjeta-menu tarjeta-juego p-4">
@@ -96,7 +102,7 @@
                     <p class="small text-light opacity-75">Escuchá y adiviná</p>
                 </a>
             </div>
-            
+
             <div class="col-md-6 col-lg-4">
                 <a href="./Pages/didactico.html" class="tarjeta-menu tarjeta-juego p-4">
                     <div class="display-3 mb-2">🎨</div>
@@ -112,10 +118,10 @@
         window.onload = () => {
             const configGuardada = JSON.parse(localStorage.getItem('configJuego'));
             if (configGuardada) {
-                if(configGuardada.equipo1.nombre) document.getElementById('name-1').value = configGuardada.equipo1.nombre;
-                if(configGuardada.equipo2.nombre) document.getElementById('name-2').value = configGuardada.equipo2.nombre;
-                if(configGuardada.equipo3.nombre) document.getElementById('name-3').value = configGuardada.equipo3.nombre;
-                if(configGuardada.equipo4.nombre) document.getElementById('name-4').value = configGuardada.equipo4.nombre;
+                if (configGuardada.equipo1.nombre) document.getElementById('name-1').value = configGuardada.equipo1.nombre;
+                if (configGuardada.equipo2.nombre) document.getElementById('name-2').value = configGuardada.equipo2.nombre;
+                if (configGuardada.equipo3.nombre) document.getElementById('name-3').value = configGuardada.equipo3.nombre;
+                if (configGuardada.equipo4.nombre) document.getElementById('name-4').value = configGuardada.equipo4.nombre;
             }
         };
 
@@ -130,5 +136,19 @@
             alert("¡Nombres guardados con éxito! Ya podés elegir un juego abajo.");
         }
     </script>
+    <script>
+        function activarPantallaCompleta() {
+            let elem = document.documentElement;
+            if (!document.fullscreenElement) {
+                if (elem.requestFullscreen) { elem.requestFullscreen(); }
+                else if (elem.webkitRequestFullscreen) { elem.webkitRequestFullscreen(); } // Safari
+                else if (elem.msRequestFullscreen) { elem.msRequestFullscreen(); } // IE11
+            } else {
+                if (document.exitFullscreen) { document.exitFullscreen(); }
+                else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
+            }
+        }
+    </script>
 </body>
+
 </html>

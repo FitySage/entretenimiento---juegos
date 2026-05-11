@@ -1,4 +1,84 @@
 @charset "UTF-8";
+/* =========================================
+   ESTILOS DEL MENÚ PRINCIPAL (HOME)
+========================================= */
+/* Fondo dinámico que cambia de color suavemente */
+body.pantalla-principal {
+  background: linear-gradient(-45deg, #ff0055, #6a00f4, #00d4ff, #ffb703);
+  background-size: 400% 400%;
+  animation: moverFondo 15s ease infinite;
+  color: white;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+@keyframes moverFondo {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+/* Título con resplandor y latido */
+.titulo-animado {
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px #ffb703, 0 0 50px #ffb703;
+  animation: latido 2s infinite;
+  color: white !important;
+}
+
+@keyframes latido {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+/* Tarjetas estilo "Glassmorphism" (Vidrio Esmerilado) */
+.tarjeta-menu {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  color: white;
+  height: 100%;
+}
+
+/* Animación para los enlaces/botones de los juegos */
+a.tarjeta-juego {
+  display: block;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+a.tarjeta-juego:hover {
+  transform: translateY(-10px) scale(1.03);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #ffb703;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 183, 3, 0.4);
+  color: white;
+}
+
+a.tarjeta-juego:active {
+  transform: scale(0.95);
+}
+
+/* Cajas oscuras para la configuración de equipos (para que se lea bien sobre el fondo de color) */
+.caja-equipo {
+  background: rgba(0, 0, 0, 0.4) !important;
+  border-radius: 15px;
+  border: 2px solid;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
 /* Estilos base para los pulsadores */
 .pulsador {
   transition: all 0.2s ease-in-out;

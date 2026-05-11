@@ -33,6 +33,7 @@ const listas = {
         { id: "VwTQ6Mt2kt4", nombre: "Soda Stereo - De Música Ligera" },
         { id: "vZFAZbZeWsQ", nombre: "Hombres G - Devuélveme a mi chica" },
         { id: "zIW8uHgaghQ", nombre: "Enanitos Verdes - Lamento Boliviano" },
+        { id: "w4Oyw9kGu5A", nombre: "Los Piojos - Bicho de Ciudad" },
     ],
     pop: [
         { id: "WHHkVUaOxe4", nombre: "Ariana Grande - Into You" },
@@ -405,6 +406,10 @@ btnReproducir.addEventListener('click', () => {
         if(btn && !equiposBloqueados.includes(id)) {
             btn.classList.remove('bloqueado');
         }
+        // --- NUEVO: AUTO-SCROLL A LOS PULSADORES ---
+    setTimeout(() => {
+        contenedorPulsadores.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 150);
     });
 
     try { if (player && player.playVideo) player.playVideo(); } catch (e) {}
@@ -447,6 +452,10 @@ function tocarPulsador(idEquipo) {
             procesarError(); 
         }
     }, 1000);
+    // --- NUEVO: AUTO-SCROLL A LOS CONTROLES DEL DJ ---
+    setTimeout(() => {
+        controlesPresentador.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 150);
 }
 
 function procesarError() {

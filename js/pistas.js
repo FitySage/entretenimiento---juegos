@@ -588,6 +588,10 @@ function tocarPulsador(idEquipo) {
     document.getElementById('mensaje-responde').innerText = `¡${nombresEquipos[idEquipo].nombre} responde!`;
     
     inputPalabra.focus();
+    // --- NUEVO: AUTO-SCROLL A LA CAJA DE TEXTO ---
+    setTimeout(() => {
+        zonaRespuesta.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 150);
 }
 
 // ENVIAR RESPUESTA
