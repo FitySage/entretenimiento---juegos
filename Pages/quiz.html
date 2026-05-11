@@ -70,10 +70,40 @@
             <button onclick="activarPantallaCompleta()" class="btn btn-outline-light mb-3 shadow rounded-pill">
                 🔲 Poner en Pantalla Completa
             </button>
-            <button id="btn-finalizar" class="btn btn-danger btn-lg shadow rounded-pill">🏆 Terminar y Guardar</button>
+            <div class="d-flex gap-2">
+                <button class="btn btn-info btn-lg shadow rounded-pill fw-bold text-white" data-bs-toggle="modal"
+                    data-bs-target="#modalTutorial">📖 Cómo Jugar</button>
+                <button id="btn-finalizar" class="btn btn-danger btn-lg shadow rounded-pill">🏆 Terminar</button>
+            </div>
         </div>
     </header>
-
+    <div class="modal fade" id="modalTutorial" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background-color: #1b263b; color: white; border: 2px solid #778da9;">
+                <div class="modal-header border-secondary">
+                    <h4 class="modal-title text-warning fw-bold">🧠 ¿Cómo jugar a la Trivia?</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-start fs-5">
+                    <p>¡Bienvenidos a la clásica Trivia Familiar!</p>
+                    <ol>
+                        <li class="mb-2">El presentador leerá la pregunta en voz alta.</li>
+                        <li class="mb-2">El primer equipo que toque su <b>Pulsador</b> tomará el control.</li>
+                        <li class="mb-2">Tienen <b>15 segundos</b> para debatir y elegir la respuesta correcta.</li>
+                        <li class="mb-2">✅ Si aciertan: <b>+10 Puntos</b>.</li>
+                        <li class="mb-2">❌ Si se equivocan: <b>Se bloquean</b> y hay REBOTE para que los demás equipos
+                            roben los puntos.</li>
+                    </ol>
+                    <p class="text-info text-center mt-3 fw-bold">¡Que gane el más sabiondo!</p>
+                </div>
+                <div class="modal-footer border-secondary justify-content-center">
+                    <button type="button" class="btn btn-success btn-lg rounded-pill px-5"
+                        data-bs-dismiss="modal">¡Entendido, a jugar!</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <section class="row justify-content-center mb-4">
         <div class="col-12 col-md-10 caja-pregunta p-4">
             <div class="texto-pregunta" id="texto-pregunta">Cargando pregunta...</div>
@@ -81,6 +111,9 @@
     </section>
 
     <h3 id="mensaje-estado" class="text-warning mb-3">¡Esperando que un equipo pulse!</h3>
+    <div id="contenedor-reloj" class="display-1 fw-bold text-white mb-3 d-none">
+        ⏳ <span id="reloj-trivia">15</span>
+    </div>
 
     <div class="row justify-content-center g-3 mb-4" id="contenedor-pulsadores">
     </div>
@@ -107,6 +140,7 @@
     <div class="fixed-bottom p-2 bg-dark bg-opacity-75 d-flex justify-content-around" id="mini-puntos">
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/historial.js"></script>
     <script src="../js/quiz.js"></script>
     <script>

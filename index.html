@@ -149,6 +149,31 @@
             }
         }
     </script>
+    <audio id="musica-fondo" loop>
+        <source src="assets/sounds/musica-menu.mp3" type="audio/mpeg">
+    </audio>
+
+    <button id="btn-musica" class="btn btn-dark border-light position-fixed bottom-0 end-0 m-3 rounded-circle shadow" style="width: 60px; height: 60px; z-index: 1000;">
+        🔇
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const audioFondo = document.getElementById('musica-fondo');
+        const btnMusica = document.getElementById('btn-musica');
+        // Le bajamos el volumen para que no tape las voces
+        audioFondo.volume = 0.3; 
+
+        btnMusica.addEventListener('click', () => {
+            if (audioFondo.paused) {
+                audioFondo.play();
+                btnMusica.innerText = "🔊";
+            } else {
+                audioFondo.pause();
+                btnMusica.innerText = "🔇";
+            }
+        });
+    </script>
 </body>
 
 </html>

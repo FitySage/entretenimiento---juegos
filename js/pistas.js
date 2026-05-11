@@ -1,3 +1,8 @@
+const sonidoTension = new Audio('../assets/sounds/tension-reloj.mp3');
+sonidoTension.loop = true; // Para que se repita si el tiempo es largo
+sonidoTension.volume = 0.4;
+const sonidoCorrecto = new Audio('../assets/sounds/correcto.mp3');
+const sonidoError = new Audio('../assets/sounds/incorrecto.mp3');
 // --- CONFIGURACIÓN ---
 let puntajes = { equipo1: 0, equipo2: 0, equipo3: 0, equipo4: 0 };
 const nombresEquipos = JSON.parse(localStorage.getItem('configJuego')) || {
@@ -530,6 +535,8 @@ function reanudarReloj() {
     displayTiempo.innerText = tiempo;
     btnOmitir.classList.remove('d-none'); 
     
+    sonidoTension.play().catch(e => console.log("Bloqueado por el navegador"));
+
     clearInterval(intervaloReloj);
     intervaloReloj = setInterval(() => {
         tiempo--;
@@ -544,6 +551,8 @@ function reanudarReloj() {
 }
 
 function terminarTiempoRonda() {
+    sonidoTension.pause();
+    sonidoTension.currentTime = 0; // (reinicia el sonido)
     clearInterval(intervaloReloj);
     tiempo = 0;
     displayTiempo.innerText = tiempo;
@@ -573,6 +582,8 @@ btnOmitir.addEventListener('click', terminarTiempoRonda);
 function tocarPulsador(idEquipo) {
     if (equipoActivo) return;
     
+    sonidoTension.pause()
+
     clearInterval(intervaloReloj); 
     btnOmitir.classList.add('d-none'); 
     
@@ -603,6 +614,7 @@ function procesarRespuesta() {
     if (!intento) return;
 
     if (intento === palabraActual.toUpperCase()) {
+        sonidoCorrecto.play().catch(e => console.log(e)); // <-- SONIDO CORRECTO AQUÍ
         puntajes[equipoActivo] += puntosPorRonda[rondaActual];
         actualizarPuntajes();
         displayPalabra.innerText = palabraActual;
@@ -615,6 +627,7 @@ function procesarRespuesta() {
             cargarNuevaPalabra();
         }, 4000);
     } else {
+        sonidoError.play().catch(e => console.log(e)); // <-- SONIDO INCORRECTO AQUÍ
         puntajes[equipoActivo] -= 10;
         equiposBloqueados.push(equipoActivo);
         actualizarPuntajes();
