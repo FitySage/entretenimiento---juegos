@@ -9,161 +9,6 @@ const nombresEquipos = JSON.parse(localStorage.getItem('configJuego')) || {
 const sonidoCorrecto = new Audio('../assets/sounds/correcto.mp3');
 const sonidoError = new Audio('../assets/sounds/incorrecto.mp3');
 
-// --- BASE DE DATOS MUSICAL (Mantenida intacta) ---
-const listas = {
-    rock: [
-        { id: "5IR5CdvBQPY", nombre: "Los Abuelos De La Nada - Mil Horas" },
-        { id: "wvAIn53VhMA", nombre: "Soda Stereo - Profugos" },
-        { id: "zd16sFhTUdg", nombre: "No Te Va Gustar - A Las 9" },
-        { id: "YTex-t2cwyQ", nombre: "Divididos - Spaghetti Del Rock" },
-        { id: "kLzICexlPzU", nombre: "Callejeros - Una Nueva Noche Fría" },
-        { id: "2Cql8mG4kWM", nombre: "Attaque 77 - Arrancacorazones" },
-        { id: "PyTUcj1fGcs", nombre: "Charly García - Nos Siguen Pegando Abajo" },
-        { id: "NQA8wiPLUFU", nombre: "Los Pericos - Complicado y Aturdido" },
-        { id: "Ng2hpTKrzHQ", nombre: "Gustavo Cordera - La Bomba Loca" },
-        { id: "P0kwvtEP59M", nombre: "Callejeros - 9 de Julio" },
-        { id: "gflJjn2ZBcM", nombre: "La Mancha de Rolando - Arde la Ciudad" },
-        { id: "PORH8P2ylPA", nombre: "Enanitos Verdes - Tu Carcel" },
-        { id: "F3IVCSrj0CM", nombre: "Bersuit Vergarabat - Un pacto para vivir" },
-        { id: "7JlpB4YkB7s", nombre: "Intoxicados - Nunca Quise" },
-        { id: "ezlpwCLgiE8", nombre: "Callejeros - Creo" },
-        { id: "uJcbNtW-R3Y", nombre: "Intoxicados - Está saliendo el Sol" },
-        { id: "l-mBu_3rI8g", nombre: "Rata Blanca - Mujer Amante" },
-        { id: "Jf_Ach2THWs", nombre: "Los Piojos - El Farolito" },
-        { id: "Kg2mJM2K8eY", nombre: "Airbag - Cae el sol " },
-        { id: "CKAm-6HpHlQ", nombre: "La Renga - La Balada del Diablo y La Muerte" },
-        { id: "OYIozwmhYKk", nombre: "Catupecumachu - Eso Vive" },
-        { id: "g6jTHRSaPPQ", nombre: "Maná - Rayando El Sol" },
-        { id: "VwTQ6Mt2kt4", nombre: "Soda Stereo - De Música Ligera" },
-        { id: "vZFAZbZeWsQ", nombre: "Hombres G - Devuélveme a mi chica" },
-        { id: "zIW8uHgaghQ", nombre: "Enanitos Verdes - Lamento Boliviano" },
-        { id: "w4Oyw9kGu5A", nombre: "Los Piojos - Bicho de Ciudad" },
-    ],
-    pop: [
-        { id: "WHHkVUaOxe4", nombre: "Ariana Grande - Into You" },
-        { id: "QvvhiIevsX8", nombre: "Teddy Swim - Lose Control" },
-        { id: "y1HpchKTO4k", nombre: "Benson Boone - Slow Down" },
-        { id: "mgT0N3tMP74", nombre: "One Republic - Counting Stars" },
-        { id: "xzNliaWxdjM", nombre: "Harry Styles - Adore You" },
-        { id: "0Ui-QzihJGo", nombre: "Justin Timberlake - Can't Stop The Feeling" },
-        { id: "LhZ5GXCZtEw", nombre: "Bruno Mars - 24K Magic" },
-        { id: "u7XjPmN-tHw", nombre: "Bruno Mars - Just The Way You Are" },
-        { id: "QC2FoaT7Yb8", nombre: "The Weeknd - I Can't Feel My Face" },
-        { id: "zgaCZOQCpp8", nombre: "Bruno Mars & Lady Gaga -  Die With a Smile" },
-        { id: "tdKmewyZPXE", nombre: "Jonas Brothers - Sucker" },
-        { id: "nNcDkT_AoHQ", nombre: "Ariana Grande - No Tears Left To Cry" },
-        { id: "xzVO_1CcwvA", nombre: "Marsmello & Halsey - Be Kind" },
-        { id: "lwOuEq_FoOo", nombre: "Lady Gaga - Abracadabra" },
-        { id: "O1TFUEMzTvE", nombre: "Dua Lipa - New Rules" },
-        { id: "pUanlyF510I", nombre: "Ariana Grande - We Cant Be Friends" },
-        { id: "BHIpvqhydLo", nombre: "Dua Lipa - Houdini" },
-        { id: "iawgB2CDCrw", nombre: "Miley Cyrus - Flower" },
-        { id: "d2Tu9ctifx4", nombre: "Taylor Swift - Opalite" },
-        { id: "htk6MRjmcnQ", nombre: "Kpop Demon Hunters - Golden" },
-        { id: "2I9eC2MRhto", nombre: "Sabrina Carpenter - Espresso" },
-        { id: "XpjwYvRryCI", nombre: "Bruno Mars & Rosé - APT" },
-        { id: "KxnpFKZowcs", nombre: "David Guetta & Sia - Titanium" },
-        { id: "uYgutBxT8ps", nombre: "Sabrina Carpenter - Manchild" },
-        { id: "ipLRRzJ9sWg", nombre: "Calvin Harris & Rihanna - This Is What You Came For" },
-        { id: "BerNfXSuvJ0", nombre: "Justin Bieber - Sorry" },
-        { id: "UsuF4jJ4sgA", nombre: "Imagine Dragons - Werever it Takes" },
-        { id: "lZEf_izPCfY", nombre: "Taylor Swift - Fate of Ophelia" },
-        { id: "Gq-ekgeVGaA", nombre: "Benson Boone - Beautiful Things" },
-        { id: "dFp_b5DPIIo", nombre: "Shawn Mendes & Camila Cabello - Señorita" },
-        { id: "nAQ_1lTDvPQ", nombre: "Taylor Swift - Blank Space" },
-        { id: "liTfD88dbCo", nombre: "Ed Sheeran - Shape of You" },
-        { id: "SyuRxUKDJjI", nombre: "Adele - Someone You Loved" },
-        { id: "0pAkIrJfwao", nombre: "Justin Bieber - Yummy" },
-        { id: "OED5AZhbskk", nombre: "Rihanna - Work" },
-        { id: "8CLkVWB_Lj8", nombre: "Dua Lipa - Don't Start Now" },
-        { id: "4-TbQnONe_w", nombre: "Billie Eilish - bad guy" },
-        { id: "XwxLwG2_Sxk", nombre: "The Weeknd - Blinding Lights" },
-        { id: "0xgaqhe5QiM", nombre: "Shawn Mendes - Treat You Better" },
-        { id: "N1BcpzPGlYQ", nombre: "Maroon 5 - Sugar" },
-        { id: "mwL1cohnHNE", nombre: "Katy Perry - Roar" },
-        { id: "4S_vclBlGZo", nombre: "Lady Gaga - Born This Way" },
-        { id: "W0DM5lcj6mw", nombre: "Imagine Dragons - Believer" },
-        { id: "oovLd9xbr8Y", nombre: "Eminem - Mockingbird" },
-        { id: "YmAQbZYu8Ho", nombre: "Linkin Park - In the End" },
-        { id: "NNMUuJWRyxc", nombre: "Green Day - American Idiot" },
-        { id: "tmIO0eSAXrw", nombre: "Olivia Rodrigo - Good for You" },
-        { id: "47EG91_XHic", nombre: "Carly Rae Jepsen - Call Me Maybe" },
-        { id: "U-3-bwPvfmg", nombre: "Eminem & Rihanna - Love The Way You Lie" },
-        { id: "35fPCcsbZYU", nombre: "Vilma Palma e Vampiros - Bye Bye" },
-        { id: "doJbORheLzw", nombre: "Gotye ft. Kimbra - Somebody That I Used Know" },
-    ],
-    los8090s: [
-        { id: "hGPL5rzd3tQ", nombre: "A-ha - Take On Me" },
-        { id: "igDP_5KqF_o", nombre: "Michael Jackson - Billie Jean" },
-        { id: "RYPAmRgSnpY", nombre: "Cyndi Lauper - Girls Just Want To Have Fun" },
-        { id: "NbSzTi0d6pQ", nombre: "Oasis - Wonderwall" },
-        { id: "5xp4422MXIw", nombre: "R.E.M. - Losing My Religion" },
-        { id: "sBspSJWRT2E", nombre: "Queen - Bohemian Rhapsody (1975/80s Hit)" },
-        { id: "oKWPYxXkAS0", nombre: "Whitney Houston - I Wanna Dance With Somebody" },
-        { id: "UvFiCV4g4K0", nombre: "Survivor - Eye of the Tiger" },
-        { id: "qjlVAsvQLM8", nombre: "Backstreet Boys - I Want It That Way" },
-        { id: "kAJz7c97Cyo", nombre: "Britney Spears - ...Baby One More Time" },
-        { id: "cZid3J36wH8", nombre: "Europe - The Final Countdown" },
-        { id: "Gd6CtzYpDBs", nombre: "Guns N' Roses - November Rain" },
-        { id: "LPr3N4AMXNQ", nombre: "The Police - Every Breath You Take" },
-        { id: "qoflJn7zkFM", nombre: "Guns N' Roses - Sweet Child O' Mine" },
-        { id: "LtDlfPYzs38", nombre: "Nirvana - Smells Like Teen Spirit" },
-        { id: "l589L_xRycA", nombre: "Aerosmith - Crazy" },
-        { id: "CP3sn7T0rxY", nombre: "Guns N' Roses - Welcome To The Jungle" },
-        { id: "aXf7Iw_hB14", nombre: "Extreme - More Than Words" }
-    ],
-    pendejada: [],
-    Disney: [
-        { id: "8cZJ_wPpBJg", nombre: "El Rey León - El Ciclo Sin Fin" },
-        { id: "2tKPGsm_5-Y", nombre: "Aladdin - Un Mundo Ideal" },
-        { id: "kY7mwb3EhbM", nombre: "La Bella y la Bestia - Bella y Bestia son" },
-        { id: "abvdJHtkf-Q", nombre: "Frozen - Libre Soy" },
-        { id: "WpGMW-gLC2E", nombre: "Toy Story - Yo soy tu amigo fiel" },
-        { id: "9x0AakpY0HE", nombre: "Mulan - Hombres de Acción" },
-        { id: "tyhkJwkwLKg", nombre: "La Sirenita - Bajo el Mar" },
-        { id: "ayhjqZW1Zto", nombre: "Moana - Cuán Lejos Voy" },
-        { id: "CNom1oaNxyU", nombre: "Coco - Recuérdame" },
-        { id: "A1AYx-qIdec", nombre: "Hércules - No Importa la Distancia" },
-        { id: "uWJ1JPZ8xdA", nombre: "Encanto - No se habla de Bruno" },
-        { id: "QczRVx2rtE4", nombre: "Tarzán - Hijo de Hombre" },
-        { id: "iFr8JSel5ns", nombre: "Pocahontas - Colores en el Viento" },
-        { id: "7WO2WVyfdgA", nombre: "Libro de la Selva - Busca lo más vital" },
-        { id: "gdOVLQKn08w", nombre: "Hércules - De Cero a Héroe" },
-        { id: "7YJ-hCw1vQg", nombre: "Tierra de Osos - En Marcha Estoy" },
-        { id: "HC87GGoWh4U", nombre: "Enredados - ¿Cuándo Empezaré A Vivir?" },
-        { id: "K6ZZJMT_p_w", nombre: "Volt - Ladrando a La Luna" },
-        { id: "llFpeKSa_ZA", nombre: "El Extraño Mundo De Jack - Esto Es Halloween" },
-        { id: "qnwMZkvMQSo", nombre: "Toy Story - Cuando Alguien Me Amaba" },
-        { id: "qqBqAn3fJ2E", nombre: "El Rey León - Hakuna Matata" },
-        { id: "23xNPVXZAWM", nombre: "El Rey León - Yo Quisiera Ya Ser El Rey" },
-        { id: "RmziNXTmYA0", nombre: "La Sirenita - Parte de Él" },
-        { id: "I-jj3ARkeCg", nombre: "Aladdin - Un Amigo Fiel" },
-        { id: "zGGUekR0p6E", nombre: "Tarzán - En Mi Corazón Vivirás" },
-        { id: "zjjzFHQOzs4", nombre: "La Princesa y el Sapo - Ya Llegaré" },
-        { id: "MmRpo12Ykic", nombre: "Enredados - Veo En Ti La Luz" },
-        { id: "m9MraeUdxnk", nombre: "Coco - Un Poco Loco" },
-        { id: "kBoMutEdpX0", nombre: "Moana - De Nada" },
-        { id: "XvJtgmeB7zU", nombre: "Phineas y Ferb - Gitchee Gitchee Ki" },
-        { id: "jpqV3dzYOgk", nombre: "Zootopia - Try Everything" },
-        { id: "O_6pOTCLSxA", nombre: "High School Musical - Together" },
-        { id: "W8Pc1YMZ8gE", nombre: "Shrek 2 - Yo Quiero Un Héroe" },
-        { id: "ZlvCpZlhRzE", nombre: "Frozen - Finalmente Y Como Nunca" },
-        { id: "mRQRUplSDpU", nombre: "Madagascar - Quiero Mover El Bote" },
-        { id: "dG6qgHI7wSs", nombre: "Enredados - Mi Sueño Ideal" },
-        { id: "GMBI78VU6I4", nombre: "Spirit - Nadie Me Va A Dominar" },
-        { id: "FNzLQOu7pWM", nombre: "La Familia Del Futuro - Pequeñas Maravillas" },
-        { id: "IA0uSub1xy4", nombre: "El Planeta Del Tesoro - Sigo aquí" },
-        { id: "ZsanLS4pUkQ", nombre: "High School Musical - Breaking Free" },
-        { id: "_sphMFcFN2U", nombre: "High School Musical - What I've Been Looking For" },
-        { id: "rIG8wi9yupg", nombre: "High School Musical 2 You Are The Music In Me" },
-        { id: "UyqnRW-CZs4", nombre: "Sign 2 - Sky Full of Stars" },
-        { id: "eSTnGifDG3g", nombre: "Sing - Shake it off" },
-        { id: "q5PY4PzhKEA", nombre: "Hotel Transylvania - Hicimos Click" },
-        { id: "zKLGTyqX13M", nombre: "Sing- I'm Still Standing" },
-        { id: "sZxl4ljVCug", nombre: "Encanto - Inspiración" },
-    ]
-};
-
 let cancionesDisponibles = [];
 let player = null;
 let equipoActivo = null;
@@ -190,11 +35,19 @@ const miniPuntos = document.getElementById('mini-puntos');
 const respuestaSecreta = document.getElementById('respuesta-secreta');
 const contenedorReproductor = document.getElementById('contenedor-reproductor');
 
+// --- INICIALIZACIÓN YOUTUBE (CON ANTI-TRAMPAS Y RELOJ AUTOMÁTICO) ---
 function onYouTubeIframeAPIReady() {
-    // Al hacerlo visible después, necesitamos que sea un poco más grande
     player = new YT.Player('yt-player', {
         height: '315', width: '100%', videoId: '',
-        playerVars: { 'playsinline': 1, 'controls': 1 }
+        playerVars: { 'playsinline': 1, 'controls': 0, 'disablekb': 1, 'showinfo': 0, 'rel': 0 },
+        events: {
+            'onStateChange': function(event) {
+                // Arranca el reloj SOLO cuando el video realmente empieza a sonar
+                if (event.data == YT.PlayerState.PLAYING && tiempoRestante == 45 && !equipoActivo) {
+                    iniciarReloj();
+                }
+            }
+        }
     });
 }
 
@@ -219,7 +72,7 @@ function actualizarUI() {
 
 // --- 1. MODO CLÁSICO ---
 function iniciarCategoria(cat) {
-    if (listas[cat].length === 0) {
+    if (!listas[cat] || listas[cat].length === 0) {
         alert("Aún no hay canciones cargadas en esta categoría.");
         return;
     }
@@ -232,6 +85,21 @@ function iniciarCategoria(cat) {
 }
 
 // --- 2. MODO PLAYLIST (Vos jugás) ---
+function chequearPlaylistCargada() {
+    if (player && player.getPlaylist && player.getPlaylist() && player.getPlaylist().length > 0) {
+        player.setShuffle(true);
+        player.nextVideo();
+        setTimeout(() => {
+            if (typeof player.pauseVideo === 'function') player.pauseVideo();
+            primerTemaCargado = false;
+            prepararNuevaCancion();
+        }, 1000);
+    } else {
+        // Validación recursiva si el internet está lento
+        setTimeout(chequearPlaylistCargada, 500);
+    }
+}
+
 window.iniciarConPlaylist = function () {
     const url = document.getElementById('link-playlist').value;
     const match = url.match(/[?&]list=([^#\&\?]+)/);
@@ -252,21 +120,15 @@ window.iniciarConPlaylist = function () {
     document.getElementById('juego-musica').classList.remove('d-none');
     actualizarUI();
 
-    player.loadPlaylist({ list: match[1], listType: 'playlist' });
-
-    mensajeEstado.innerText = "Preparando y mezclando lista secreta...";
-    mensajeEstado.className = "text-warning";
-    btnReproducir.classList.add('d-none');
-
-    setTimeout(() => {
-        player.setShuffle(true);
-        player.nextVideo();
-        setTimeout(() => {
-            player.pauseVideo();
-            primerTemaCargado = false;
-            prepararNuevaCancion();
-        }, 1000);
-    }, 2000);
+    if(player && typeof player.loadPlaylist === 'function') {
+        player.loadPlaylist({ list: match[1], listType: 'playlist' });
+        mensajeEstado.innerText = "Preparando y mezclando lista secreta...";
+        mensajeEstado.className = "text-warning";
+        btnReproducir.classList.add('d-none');
+        chequearPlaylistCargada();
+    } else {
+        alert("El reproductor de YouTube aún no ha cargado. Intenta de nuevo.");
+    }
 }
 
 // --- PREPARAR LA CANCIÓN ---
@@ -277,8 +139,15 @@ function prepararNuevaCancion() {
         return;
     }
 
-    contenedorReproductor.className = "reproductor-fantasma mb-3";
+    // --- NUEVO: Resetear el escudo anti-trampas ---
+    const btnRevelarNombre = document.getElementById('btn-revelar-nombre');
+    const contenedorRespuesta = document.getElementById('contenedor-respuesta-secreta');
+    if(btnRevelarNombre && contenedorRespuesta) {
+        btnRevelarNombre.classList.remove('d-none'); // Muestra el botón
+        contenedorRespuesta.classList.add('d-none'); // Oculta el texto
+    }
 
+    contenedorReproductor.className = "reproductor-fantasma mb-3";
     equipoActivo = null;
     equiposBloqueados = [];
     pausarReloj();
@@ -290,7 +159,6 @@ function prepararNuevaCancion() {
 
     document.getElementById('btn-artista').classList.remove('d-none');
     document.getElementById('btn-melodia').classList.remove('d-none');
-
     controlesPresentador.classList.add('d-none');
     controlesTiempoAgotado.classList.add('d-none');
 
@@ -311,9 +179,9 @@ function prepararNuevaCancion() {
     if (esModoPlaylist) {
         if (respuestaSecreta) respuestaSecreta.innerText = "🎧 Modo Playlist Secreto\n(Tocá 'Mostrar Video' para revelar la respuesta).";
 
-        if (!primerTemaCargado) {
+        if (!primerTemaCargado && typeof player.nextVideo === 'function') {
             player.nextVideo();
-            setTimeout(() => player.pauseVideo(), 500);
+            setTimeout(() => { if(typeof player.pauseVideo === 'function') player.pauseVideo(); }, 500);
         }
     } else {
         const indice = Math.floor(Math.random() * cancionesDisponibles.length);
@@ -322,12 +190,13 @@ function prepararNuevaCancion() {
 
         let idVideo = typeof cancionActualInfo === 'object' ? cancionActualInfo.id : cancionActualInfo;
         let nombreParaMostrar = typeof cancionActualInfo === 'object' ? cancionActualInfo.nombre : `ID: ${idVideo}`;
+        let tiempoInicio = (typeof cancionActualInfo === 'object' && cancionActualInfo.startSeconds) ? cancionActualInfo.startSeconds : 0;
 
         if (respuestaSecreta) respuestaSecreta.innerText = `${nombreParaMostrar}`;
 
-        if (player && player.loadVideoById) {
-            player.loadVideoById(idVideo);
-            player.pauseVideo();
+        // Usamos cueVideoById para precargar sin que empiece a sonar ni un milisegundo
+        if (player && typeof player.cueVideoById === 'function') {
+            player.cueVideoById({ videoId: idVideo, startSeconds: tiempoInicio });
         }
     }
 }
@@ -335,7 +204,7 @@ function prepararNuevaCancion() {
 // BOTÓN MÁGICO: Revelar el video en pantalla
 document.getElementById('btn-revelar-video').addEventListener('click', () => {
     contenedorReproductor.className = "reproductor-visible mb-3";
-    if (player && player.playVideo) player.playVideo();
+    if (player && typeof player.playVideo === 'function') player.playVideo();
     mensajeEstado.innerText = "¡AQUÍ ESTÁ LA RESPUESTA!";
     mensajeEstado.className = "text-info display-6 fw-bold";
 });
@@ -362,7 +231,7 @@ function dispararTiempoAgotado() {
     pausarReloj();
     clearInterval(intervaloRespuesta);
 
-    try { if (player && player.pauseVideo) player.pauseVideo(); } catch (e) { }
+    if (player && typeof player.pauseVideo === 'function') player.pauseVideo();
 
     mensajeEstado.innerText = "¡SE ACABÓ EL TIEMPO!";
     mensajeEstado.className = "text-danger display-6 fw-bold";
@@ -386,7 +255,6 @@ function dispararTiempoAgotado() {
 
     controlesTiempoAgotado.classList.remove('d-none');
 
-    // Auto-revelar el video en Modo Playlist para que vean la respuesta
     if (esModoPlaylist) {
         contenedorReproductor.className = "reproductor-visible mb-3";
     }
@@ -410,14 +278,13 @@ btnReproducir.addEventListener('click', () => {
         if (btn && !equiposBloqueados.includes(id)) {
             btn.classList.remove('bloqueado');
         }
-        // --- NUEVO: AUTO-SCROLL A LOS PULSADORES ---
-        setTimeout(() => {
-            contenedorPulsadores.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 150);
     });
 
-    try { if (player && player.playVideo) player.playVideo(); } catch (e) { }
-    iniciarReloj();
+    setTimeout(() => {
+        contenedorPulsadores.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 150);
+
+    if (player && typeof player.playVideo === 'function') player.playVideo();
 });
 
 // ¡ALGUIEN TOCÓ EL BOTÓN!
@@ -428,7 +295,7 @@ function tocarPulsador(idEquipo) {
     pausarReloj();
     clearInterval(intervaloRespuesta);
 
-    try { if (player && player.pauseVideo) player.pauseVideo(); } catch (e) { }
+    if (player && typeof player.pauseVideo === 'function') player.pauseVideo();
 
     Object.keys(nombresEquipos).forEach(id => {
         const btn = document.getElementById(`pulsador-${id}`);
@@ -440,10 +307,8 @@ function tocarPulsador(idEquipo) {
     });
 
     controlesPresentador.classList.remove('d-none');
-
     tiempoRespuesta = 15;
 
-    // Corregido: Ahora el reloj visual arranca en 15 igual que la variable de lógica
     mensajeEstado.innerHTML = `¡${nombresEquipos[idEquipo].nombre} tiene la palabra!<br><span class="text-white display-3">⏳ <span id="reloj-respuesta">15</span></span>`;
     mensajeEstado.className = "text-success display-6 fw-bold";
 
@@ -456,7 +321,7 @@ function tocarPulsador(idEquipo) {
             procesarError();
         }
     }, 1000);
-    // --- NUEVO: AUTO-SCROLL A LOS CONTROLES DEL DJ ---
+
     setTimeout(() => {
         controlesPresentador.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 150);
@@ -464,7 +329,7 @@ function tocarPulsador(idEquipo) {
 
 function procesarError() {
     clearInterval(intervaloRespuesta);
-    sonidoError.play().catch(e => console.log(e)); // <-- SONIDO INCORRECTO AQUÍ
+    sonidoError.play().catch(e => console.log(e));
     puntajes[equipoActivo] -= 2;
     actualizarUI();
 
@@ -493,15 +358,13 @@ function procesarError() {
         }
     });
 
-    try { if (player && player.playVideo) player.playVideo(); } catch (e) { }
-    iniciarReloj();
+    if (player && typeof player.playVideo === 'function') player.playVideo();
 }
 
 // --- SISTEMA DE PUNTOS DINÁMICO ---
-
 document.getElementById('btn-exacto').addEventListener('click', () => {
     clearInterval(intervaloRespuesta);
-    sonidoCorrecto.play().catch(e => console.log(e)); // <-- SONIDO CORRECTO AQUÍ
+    sonidoCorrecto.play().catch(e => console.log(e));
     puntajes[equipoActivo] += 10;
     actualizarUI();
     prepararNuevaCancion();
@@ -509,7 +372,7 @@ document.getElementById('btn-exacto').addEventListener('click', () => {
 
 function continuarRonda(puntos, botonId) {
     clearInterval(intervaloRespuesta);
-    sonidoCorrecto.play().catch(e => console.log(e)); // <-- SONIDO CORRECTO AQUÍ
+    sonidoCorrecto.play().catch(e => console.log(e));
     puntajes[equipoActivo] += puntos;
     actualizarUI();
 
@@ -533,8 +396,7 @@ function continuarRonda(puntos, botonId) {
 
     contenedorReproductor.className = "reproductor-fantasma mb-3";
 
-    try { if (player && player.playVideo) player.playVideo(); } catch (e) { }
-    iniciarReloj();
+    if (player && typeof player.playVideo === 'function') player.playVideo();
 }
 
 document.getElementById('btn-artista').addEventListener('click', () => continuarRonda(7, 'btn-artista'));
@@ -554,8 +416,20 @@ function finalizarJuego() {
         }
     });
 
-    if (maxPuntos > 0) guardarGanador(ganador, maxPuntos, "Adivina la Canción");
+    if (maxPuntos > 0) typeof guardarGanador === 'function' ? guardarGanador(ganador, maxPuntos, "Adivina la Canción") : null;
     window.location.href = "podio.html";
 }
 
 document.getElementById('btn-finalizar').addEventListener('click', finalizarJuego);
+
+// --- ANTI-TRAMPA: Evento para revelar texto del nombre ---
+// Se ejecuta al final para asegurar que el DOM cargó
+const btnRevelarNombreDOM = document.getElementById('btn-revelar-nombre');
+const contenedorRespuestaDOM = document.getElementById('contenedor-respuesta-secreta');
+
+if (btnRevelarNombreDOM) {
+    btnRevelarNombreDOM.addEventListener('click', () => {
+        btnRevelarNombreDOM.classList.add('d-none');
+        if (contenedorRespuestaDOM) contenedorRespuestaDOM.classList.remove('d-none');
+    });
+}

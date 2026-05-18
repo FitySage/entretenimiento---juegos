@@ -79,6 +79,111 @@ a.tarjeta-juego:active {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
+body {
+  background-color: #1b263b;
+  color: white;
+}
+
+.caja-pregunta {
+  background: linear-gradient(145deg, #415a77, #778da9);
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.texto-pregunta {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.btn-opcion {
+  font-size: 1.5rem;
+  padding: 15px;
+  border-radius: 15px;
+  transition: transform 0.2s;
+}
+
+.btn-opcion:active {
+  transform: scale(0.95);
+}
+
+.btn-equipo {
+  font-size: 1.5rem;
+  padding: 20px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.bloqueado {
+  opacity: 0.4;
+  pointer-events: none;
+  filter: grayscale(100%);
+}
+
+@media (min-width: 992px) {
+  .texto-pregunta {
+    font-size: 4rem;
+  }
+}
+body {
+  background-color: #1a1a2e;
+  color: white;
+}
+
+.btn-pulsador {
+  height: 150px;
+  font-size: 2rem;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.btn-pulsador:active {
+  transform: scale(0.95);
+}
+
+.bloqueado {
+  opacity: 0.3;
+  pointer-events: none;
+  filter: grayscale(100%);
+}
+
+.ganador-ronda {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+  z-index: 10;
+}
+
+.reloj-gigante {
+  font-size: 4rem;
+  font-weight: bold;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+/* El escondite del reproductor */
+.reproductor-fantasma {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Cuando revelamos el video en la pantalla */
+.reproductor-visible {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  border: 4px solid #ffb703;
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(255, 183, 3, 0.5);
+}
+
 /* Estilos base para los pulsadores */
 .pulsador {
   transition: all 0.2s ease-in-out;

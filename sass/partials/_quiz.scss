@@ -1,0 +1,50 @@
+body {
+    background-color: #1b263b;
+    color: white;
+}
+
+.caja-pregunta {
+    background: linear-gradient(145deg, #415a77, #778da9);
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.texto-pregunta {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.btn-opcion {
+    font-size: 1.5rem;
+    padding: 15px;
+    border-radius: 15px;
+    transition: transform 0.2s;
+}
+
+.btn-opcion:active {
+    transform: scale(0.95);
+}
+
+.btn-equipo {
+    font-size: 1.5rem;
+    padding: 20px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.bloqueado {
+    opacity: 0.4;
+    pointer-events: none;
+    filter: grayscale(100%);
+}
+
+@media (min-width: 992px) {
+    .texto-pregunta {
+        font-size: 4rem;
+    }
+}
