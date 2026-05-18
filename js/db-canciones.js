@@ -152,7 +152,17 @@ const listas = {
     peliculas_videojuegos: [
         { id: "NTa6Xbzfq1U", nombre: "Super Mario Bros - Overworld Theme", startSeconds: 0 },
         { id: "0jXTBAGv9ZQ", nombre: "Halo - Main Theme", startSeconds: 15 },
-        { id: "8q4_B2HwBqk", nombre: "Friends - I'll Be There For You", startSeconds: 0 }
+        { id: "SCQGnVrTsAM", nombre: "Friends - I'll Be There For You", startSeconds: 0 },
+        { id: "TZE9gVF1QbA", nombre: "Game of Thrones - Main Theme", startSeconds: 0 },
+        { id: "_D0ZQPqeJkk", nombre: "Star Wars - Main Theme", startSeconds: 0 },
+        { id: "yqKThTGi6I8", nombre: "The Lord of the Rings - The Fellowship of the Ring", startSeconds: 0 },
+        { id: "NmCCQxVBfyM", nombre: "Tetris Theme", startSeconds: 0 },
+        { id: "pfA5UqEU_80", nombre: "The Last of Us - Main Theme", startSeconds: 19 },
+
+        { id: "qv0sYBzj8iE", nombre: "The Legend of Zelda - Main Theme", startSeconds: 0 },
+        { id: "l9n2ZyQhXoA", nombre: "Stranger Things - Main Theme", startSeconds: 0 },
+        { id: "mKqQeVtXG7k", nombre: "The Witcher 3 - Main Theme", startSeconds: 0 },
+        { id: "5sYjN8r1u9c", nombre: "Pirates of the Caribbean - He's a Pirate", startSeconds: 0 },
         // Agrega el resto de las de películas y juegos acá...
     ]
 };
